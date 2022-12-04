@@ -211,9 +211,9 @@ export class Editor {
 
     _fillText(text: IFontData, x: number, y: number) {
         this._ctx!.textBaseline = "top";
-        // const config = this._data.getConfg();
+        const config = this._data.getConfg();
         this._ctx!.font = `${text.fontStyle} ${text.fontWeight} ${text.fontSize}px ${text.fontFamily}`;
-        // const offsetY = text.isChinese ? (config.lineHeight - text.height) / 2 : 0;
-        this._ctx?.fillText(text.value, x, y, text.fontSize);
+        const offsetY = text.fontFamily === "kai" && text.isChinese ? (config.lineHeight - text.height) / 2 : 0;
+        this._ctx?.fillText(text.value, x, y + offsetY, text.fontSize);
     }
 }
