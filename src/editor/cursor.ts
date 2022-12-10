@@ -1,4 +1,4 @@
-import { Data } from "./data";
+import { Data } from "./Data";
 import { IFontData } from "./type";
 
 const COMPENSTATE_LEN = 4;

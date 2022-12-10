@@ -1,14 +1,15 @@
-import { Cursor } from "./cursor";
-import { Data } from "./data";
+import { Cursor } from "./Cursor";
+import { Data } from "./Data";
 import { KEY_BOARD } from "./keyboard";
+import { Textarea } from "./Textarea";
 import { IFontData, IMouseClick } from "./type";
 import { isChinese } from "./util";
 
 export class Editor {
     private _container: HTMLDivElement;
-    private _canvas: HTMLCanvasElement | null;
-    private _ctx: CanvasRenderingContext2D | null;
-    private _textarea: HTMLTextAreaElement | null;
+    private _canvas: HTMLCanvasElement;
+    private _ctx: CanvasRenderingContext2D;
+    private _textarea: HTMLTextAreaElement;
 
     private _data: Data;
     private _cursor: Cursor;
@@ -16,16 +17,17 @@ export class Editor {
     private _click: IMouseClick | null;
     constructor(container: HTMLDivElement, data: Data) {
         this._container = container;
-        this._ctx = null;
-        this._canvas = null;
-        this._textarea = null;
 
         this._data = data;
 
         this._click = null;
 
-        this._createCanvas();
-        this._createTextarea();
+        const { canvas, ctx } = this._createCanvas();
+        this._canvas = canvas;
+        this._ctx = ctx;
+
+        const textarea = new Textarea(this._container);
+        this._textarea = textarea.getTextareaElement();
 
         this._cursor = new Cursor(this._container, this._data);
 
@@ -41,32 +43,18 @@ export class Editor {
         const dpr = window.devicePixelRatio;
         canvas.width = width * dpr;
         canvas.height = height * dpr;
-        this._canvas = canvas;
-        this._ctx = canvas.getContext("2d");
-        this._ctx?.scale(dpr, dpr);
+        const ctx = canvas.getContext("2d")!;
+        ctx.scale(dpr, dpr);
         this._container.append(canvas);
-    }
 
-    _createTextarea() {
-        const textarea = document.createElement("textarea");
-        textarea.style.position = "absolute";
-        textarea.style.zIndex = "-100";
-        textarea.style.right = "100px";
-        // textarea.style.left = "-10000px";
-        // textarea.style.background = "transparent";
-        // textarea.style.border = "none";
-        // textarea.style.resize = "none";
-        // textarea.style.outline = "none";
-        // textarea.style.color = "transparent";
-        this._textarea = textarea;
-        this._container.append(textarea);
+        return { canvas, ctx };
     }
 
     _resize() {
         const width = window.innerWidth;
         const height = window.innerHeight;
-        this._canvas!.width = width;
-        this._canvas!.height = height;
+        this._canvas.width = width;
+        this._canvas.height = height;
     }
 
     _unbindEvents() {}
@@ -74,21 +62,21 @@ export class Editor {
     _bindEvents() {
         window.addEventListener("resize", this._resize.bind(this));
 
-        this._canvas?.addEventListener("mousedown", this._onMouseDown.bind(this));
-        this._canvas?.addEventListener("mouseup", this._onMouseUp.bind(this));
+        this._canvas.addEventListener("mousedown", this._onMouseDown.bind(this));
+        this._canvas.addEventListener("mouseup", this._onMouseUp.bind(this));
 
-        this._textarea?.addEventListener("change", (input) => {
+        this._textarea.addEventListener("change", (input) => {
             console.log("==== change", input);
         });
 
-        this._textarea?.addEventListener("focus", (input) => {
+        this._textarea.addEventListener("focus", (input) => {
             console.log("==== focus", input);
         });
 
-        this._textarea?.addEventListener("input", e => this._onInput(e as InputEvent));
-        this._textarea?.addEventListener("compositionstart", e => this._onCompStart(e as CompositionEvent));
-        this._textarea?.addEventListener("compositionend", e => this._onCompEnd(e as CompositionEvent));
-        this._textarea?.addEventListener("keydown", e => this._onKeydown(e as KeyboardEvent));
+        this._textarea.addEventListener("input", e => this._onInput(e as InputEvent));
+        this._textarea.addEventListener("compositionstart", e => this._onCompStart(e as CompositionEvent));
+        this._textarea.addEventListener("compositionend", e => this._onCompEnd(e as CompositionEvent));
+        this._textarea.addEventListener("keydown", e => this._onKeydown(e as KeyboardEvent));
     }
 
     _onMouseDown(e: MouseEvent) {
@@ -109,7 +97,7 @@ export class Editor {
     }
 
     _focus(x: number, y: number) {
-        this._textarea?.focus();
+        this._textarea.focus();
         // 暂时默认到最后
         this._cursor.setCursorPosition(x, y);
         this._cursor.updateCursor();
@@ -117,7 +105,7 @@ export class Editor {
     }
 
     _blur() {
-        this._textarea?.blur();
+        this._textarea.blur();
         this._cursor.hideCursor();
     }
 
@@ -214,12 +202,12 @@ export class Editor {
         // this._renderText(text, config.x + , config.y)
 
         // 清除textarea中的值
-        this._textarea!.value = "";
+        this._textarea.value = "";
     }
 
     _getFontSize(text: IFontData) {
-        this._ctx!.font = `${text.fontStyle} ${text.fontWeight} ${text.fontSize}px ${text.fontFamily}`;
-        const metrics = this._ctx!.measureText(text.value);
+        this._ctx.font = `${text.fontStyle} ${text.fontWeight} ${text.fontSize}px ${text.fontFamily}`;
+        const metrics = this._ctx.measureText(text.value);
         console.log(metrics);
         const width = metrics.width;
         const height = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
@@ -227,7 +215,7 @@ export class Editor {
     }
 
     _clear() {
-        this._ctx?.clearRect(0, 0, this._canvas!.width, this._canvas!.height);
+        this._ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
     }
 
     _renderRichText() {
@@ -251,10 +239,10 @@ export class Editor {
     }
 
     _fillText(text: IFontData, x: number, y: number) {
-        this._ctx!.textBaseline = "top";
+        this._ctx.textBaseline = "top";
         const config = this._data.getConfg();
-        this._ctx!.font = `${text.fontStyle} ${text.fontWeight} ${text.fontSize}px ${text.fontFamily}`;
+        this._ctx.font = `${text.fontStyle} ${text.fontWeight} ${text.fontSize}px ${text.fontFamily}`;
         const offsetY = text.isChinese ? (config.lineHeight - text.height) / 2 : 0;
-        this._ctx?.fillText(text.value, x, y + offsetY, text.fontSize);
+        this._ctx.fillText(text.value, x, y + offsetY, text.fontSize);
     }
 }
