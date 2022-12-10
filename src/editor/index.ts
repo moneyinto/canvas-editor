@@ -1,4 +1,6 @@
+import { Cursor } from "./cursor";
 import { Data } from "./data";
+import { KEY_BOARD } from "./keyboard";
 import { IFontData, IMouseClick } from "./type";
 import { isChinese } from "./util";
 
@@ -9,6 +11,7 @@ export class Editor {
     private _textarea: HTMLTextAreaElement | null;
 
     private _data: Data;
+    private _cursor: Cursor;
 
     private _click: IMouseClick | null;
     constructor(container: HTMLDivElement, data: Data) {
@@ -23,13 +26,12 @@ export class Editor {
 
         this._createCanvas();
         this._createTextarea();
-        this._createCursor();
+
+        this._cursor = new Cursor(this._container, this._data);
 
         this._bindEvents();
 
         this._renderRichText();
-
-        console.log("init");
     }
 
     _createCanvas() {
@@ -60,19 +62,6 @@ export class Editor {
         this._container.append(textarea);
     }
 
-    _createCursor() {
-        const cursor = document.createElement("div");
-        cursor.style.width = "1px";
-        cursor.style.height = "20px";
-        cursor.style.position = "absolute";
-        cursor.style.top = "9px";
-        cursor.style.left = "10px";
-        cursor.style.background = "black";
-        cursor.classList.add("editor-cursor");
-
-        this._container.append(cursor);
-    }
-
     _resize() {
         const width = window.innerWidth;
         const height = window.innerHeight;
@@ -99,6 +88,7 @@ export class Editor {
         this._textarea?.addEventListener("input", e => this._onInput(e as InputEvent));
         this._textarea?.addEventListener("compositionstart", e => this._onCompStart(e as CompositionEvent));
         this._textarea?.addEventListener("compositionend", e => this._onCompEnd(e as CompositionEvent));
+        this._textarea?.addEventListener("keydown", e => this._onKeydown(e as KeyboardEvent));
     }
 
     _onMouseDown(e: MouseEvent) {
@@ -106,8 +96,6 @@ export class Editor {
             x: e.clientX,
             y: e.clientY
         };
-
-        console.log(this._click.x);
     }
 
     _onMouseUp(e: MouseEvent) {
@@ -122,10 +110,15 @@ export class Editor {
 
     _focus(x: number, y: number) {
         this._textarea?.focus();
+        // 暂时默认到最后
+        this._cursor.setCursorPosition(x, y);
+        this._cursor.updateCursor();
+        this._cursor.showCursor();
     }
 
     _blur() {
         this._textarea?.blur();
+        this._cursor.hideCursor();
     }
 
     _onInput(e: InputEvent) {
@@ -150,6 +143,45 @@ export class Editor {
         }
     }
 
+    _onKeydown(e: KeyboardEvent) {
+        console.log(e.key);
+        switch(e.key) {
+            case KEY_BOARD.LEFT: {
+                break;
+            }
+            case KEY_BOARD.RIGHT: {
+                break;
+            }
+            case KEY_BOARD.TOP: {
+                break;
+            }
+            case KEY_BOARD.BOTTOM: {
+                break;
+            }
+            case KEY_BOARD.ENTER: {
+                break;
+            }
+            case KEY_BOARD.BACKSPACE: {
+                this._deleteText();
+                break;
+            }
+        }
+    }
+
+    _deleteText(direction: 0 | 1 = 0) {
+        // direction 删除方向  0 向前删除 1 向后删除
+        const position = this._cursor.getDataPosition();
+        const result = this._data.deleteContent(position + direction);
+        if (result) {
+            if (direction === 0) {
+                this._cursor.setDataPosition(this._cursor.getDataPosition() - 1);
+                this._cursor.setCursorPositionByData();
+                this._cursor.updateCursor();
+            };
+            this._renderRichText();
+        }
+    }
+
     _inputText(value: string) {
         const config = this._data.getConfg();
         const text: IFontData = {
@@ -169,11 +201,20 @@ export class Editor {
         text.width = width;
         text.height = height;
 
-        this._data.addContent(text);
+        const currentDataPosition = this._cursor.getDataPosition();
+
+        this._data.addContent(text, currentDataPosition + 1);
+
+        this._cursor.setDataPosition(currentDataPosition + 1);
+        this._cursor.setCursorPositionByData();
+        this._cursor.updateCursor();
 
         // ！！！！直接重新渲染文本 后期可以考虑当光标在最后位置的时候可以不清空canvas直接在对应的位置赋值
         this._renderRichText();
         // this._renderText(text, config.x + , config.y)
+
+        // 清除textarea中的值
+        this._textarea!.value = "";
     }
 
     _getFontSize(text: IFontData) {
@@ -194,8 +235,8 @@ export class Editor {
         const texts = this._data.getContent();
         const config = this._data.getConfg();
         // ！！！后面考虑这里要注意计算换行 需要有个变量来进行记录用于计算
-        let x = config.x;
-        let y = config.y;
+        let x = config.pageMargin;
+        let y = config.pageMargin;
         texts.forEach((text) => {
             this._fillText(text, x, y);
             // const metrics = this._ctx!.measureText(text.value);
@@ -213,7 +254,7 @@ export class Editor {
         this._ctx!.textBaseline = "top";
         const config = this._data.getConfg();
         this._ctx!.font = `${text.fontStyle} ${text.fontWeight} ${text.fontSize}px ${text.fontFamily}`;
-        const offsetY = text.fontFamily === "kai" && text.isChinese ? (config.lineHeight - text.height) / 2 : 0;
+        const offsetY = text.isChinese ? (config.lineHeight - text.height) / 2 : 0;
         this._ctx?.fillText(text.value, x, y + offsetY, text.fontSize);
     }
 }

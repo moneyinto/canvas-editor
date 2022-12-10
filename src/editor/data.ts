@@ -2,28 +2,6 @@ import { IConfig, IFontData } from "./type";
 
 const initData: IFontData[] = [
     {
-        value: "测",
-        fontSize: 16,
-        width: 16,
-        height: 13.734375,
-        fontStyle: "normal",
-        fontWeight: "400",
-        fontFamily: "kai",
-        fontColor: "#444",
-        isChinese: true
-    },
-    {
-        value: "试",
-        fontSize: 16,
-        width: 16,
-        height: 13.734375,
-        fontStyle: "normal",
-        fontWeight: "400",
-        fontFamily: "kai",
-        fontColor: "#444",
-        isChinese: true
-    },
-    {
         value: "c",
         fontSize: 16,
         width: 8.751998901367188,
@@ -141,31 +119,36 @@ export class Data {
     constructor() {
         this._content = initData;
         this._config = {
-            x: 10,
-            y: 10,
             fontSize: 16,
             fontWeight: "400",
-            fontFamily: "kai",
+            fontFamily: "serif",
             fontColor: "#444",
             fontStyle: "normal",
             wordSpace: 1,
-            lineHeight: 16
+            lineHeight: 16,
+            pageMargin: 10
         };
     }
 
-    public getContent() {
+    getContent() {
         return this._content;
     }
 
-    public getLength() {
+    getLength() {
         return this._content.length;
     }
 
-    public getConfg() {
+    getConfg() {
         return this._config;
     }
 
-    public addContent(text: IFontData) {
-        this._content.push(text);
+    addContent(text: IFontData, position: number) {
+        this._content.splice(position, 0, text);
+    }
+
+    deleteContent(position: number) {
+        if (position >= this._content.length || position === -1) return false;
+        this._content.splice(position, 1);
+        return true;
     }
 }

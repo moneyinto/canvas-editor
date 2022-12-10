@@ -4,8 +4,6 @@ export interface IMouseClick {
 }
 
 export interface IConfig {
-    x: number;
-    y: number;
     fontSize: number;
     fontWeight: string;
     fontFamily: string;
@@ -13,6 +11,7 @@ export interface IConfig {
     fontStyle: string;
     wordSpace: number;
     lineHeight: number;
+    pageMargin: number;
 }
 
 export interface IFontData {
