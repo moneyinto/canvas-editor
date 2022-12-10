@@ -135,9 +135,17 @@ export class Editor {
         console.log(e.key);
         switch(e.key) {
             case KEY_BOARD.LEFT: {
+                const position = this._cursor.getDataPosition();
+                this._cursor.setDataPosition(position - 1);
+                this._cursor.setCursorPositionByData();
+                this._cursor.updateCursor();
                 break;
             }
             case KEY_BOARD.RIGHT: {
+                const position = this._cursor.getDataPosition();
+                this._cursor.setDataPosition(position + 1);
+                this._cursor.setCursorPositionByData();
+                this._cursor.updateCursor();
                 break;
             }
             case KEY_BOARD.TOP: {

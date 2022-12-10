@@ -112,6 +112,7 @@ export class Cursor {
 
     setDataPosition(position: number) {
         console.log(position);
+        if (position < -1 || position >= this._data.getLength()) return;
         this._dataPosition = position;
     }
 
