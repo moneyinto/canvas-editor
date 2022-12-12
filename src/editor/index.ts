@@ -18,13 +18,14 @@ export class Editor {
     constructor(container: HTMLDivElement, data: Data) {
         this._container = container;
 
-        this._data = data;
-
         this._click = null;
 
         const { canvas, ctx } = this._createCanvas();
         this._canvas = canvas;
         this._ctx = ctx;
+
+        this._data = data;
+        this._data.setPageWidth(this._canvas.width);
 
         const textarea = new Textarea(this._container);
         this._textarea = textarea.getTextareaElement();
@@ -40,6 +41,7 @@ export class Editor {
         const width = window.innerWidth;
         const height = window.innerHeight;
         const canvas = document.createElement("canvas");
+        canvas.style.background = "#fff";
         const dpr = window.devicePixelRatio;
         canvas.width = width * dpr;
         canvas.height = height * dpr;
@@ -168,6 +170,7 @@ export class Editor {
         // direction 删除方向  0 向前删除 1 向后删除
         const position = this._cursor.getDataPosition();
         const result = this._data.deleteContent(position + direction);
+        // 当存在中英文混合时 删除正好某行空一个英文字符的空格，删除后正好有个英文字符将会填充到上一行，光标应该处理该行倒数第二个字符
         if (result) {
             if (direction === 0) {
                 this._cursor.setDataPosition(this._cursor.getDataPosition() - 1);
@@ -193,7 +196,6 @@ export class Editor {
         };
         
         const { width, height } = this._getFontSize(text);
-        console.log(width, height);
         text.width = width;
         text.height = height;
 
@@ -205,9 +207,8 @@ export class Editor {
         this._cursor.setCursorPositionByData();
         this._cursor.updateCursor();
 
-        // ！！！！直接重新渲染文本 后期可以考虑当光标在最后位置的时候可以不清空canvas直接在对应的位置赋值
+        // ！！！！考虑当光标在最后位置的时候可以不清空canvas直接在对应的位置赋值渲染文本
         this._renderRichText();
-        // this._renderText(text, config.x + , config.y)
 
         // 清除textarea中的值
         this._textarea.value = "";
@@ -228,21 +229,18 @@ export class Editor {
 
     _renderRichText() {
         this._clear();
-        const texts = this._data.getContent();
+        const lineTexts = this._data.getRenderContent();
         const config = this._data.getConfg();
-        // ！！！后面考虑这里要注意计算换行 需要有个变量来进行记录用于计算
         let x = config.pageMargin;
         let y = config.pageMargin;
-        texts.forEach((text) => {
-            this._fillText(text, x, y);
-            // const metrics = this._ctx!.measureText(text.value);
-            // const width = metrics.width;
-            // const height = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
-            // console.log(width, height, text.width)
-            // 计算下一个字符的开始位置
-            x = x + text.width + config.wordSpace;
-            // 换行了会计算y的值
-            // y = y + 0;
+
+        lineTexts.forEach(lineData => {
+            lineData.texts.forEach(text => {
+                this._fillText(text, x, y);
+                x = x + text.width + config.wordSpace;
+            });
+            x = config.pageMargin;
+            y = y + lineData.height * config.lineHeight;
         });
     }
 
@@ -250,7 +248,7 @@ export class Editor {
         this._ctx.textBaseline = "top";
         const config = this._data.getConfg();
         this._ctx.font = `${text.fontStyle} ${text.fontWeight} ${text.fontSize}px ${text.fontFamily}`;
-        const offsetY = text.isChinese ? (config.lineHeight - text.height) / 2 : 0;
+        const offsetY = (config.lineHeight - 1) * text.fontSize / 2;
         this._ctx.fillText(text.value, x, y + offsetY, text.fontSize);
     }
 }

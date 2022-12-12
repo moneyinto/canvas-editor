@@ -1,5 +1,5 @@
 import { Data } from "./Data";
-import { IFontData } from "./type";
+import { IFontData, ILineData } from "./type";
 
 const COMPENSTATE_LEN = 4;
 
@@ -14,6 +14,9 @@ export class Cursor {
     private _top: number;
     private _left: number;
 
+    // 渲染数据索引位置
+    private _renderDataPosition: [number, number];
+
     // 原数据索引位置 -1 为最前面 之后值为数据索引值 及光标在该索引数据后面
     private _dataPosition: number;
     constructor(container: HTMLDivElement, data: Data) {
@@ -24,11 +27,12 @@ export class Cursor {
 
         const config = this._data.getConfg();
 
-        this._height = config.lineHeight + COMPENSTATE_LEN;
+        this._height = config.lineHeight * config.fontSize + COMPENSTATE_LEN;
         this._top = config.pageMargin - COMPENSTATE_LEN / 2 + 1;
         this._left = config.pageMargin - config.wordSpace / 2 - 0.5; // 0.5为光标宽度补偿值
 
         this._dataPosition = -1;
+        this._renderDataPosition = [-1, 0];
 
         this._createCursor();
         this.updateCursor();
@@ -63,57 +67,122 @@ export class Cursor {
 
     setCursorPosition(x: number, y: number) {
         // 先计算属于哪一行
-        // this._top = y;
+        const renderContent = this._data.getRenderContent();
+        const { top, lineY } = this._getLineYCursorPosition(renderContent, y);
+        this._top = top;
 
         // 计算在某行的位置
-        const lineData = this._data.getContent();
-        const { left, lineX } = this._getLineCursorPosition(lineData, x);
+        const lineData = renderContent[lineY].texts;
+        const { left, lineX } = this._getLineXCursorPosition(lineData, x);
         this._left = left;
 
-        this.setDataPosition(lineX)
+        console.log(renderContent);
+        let allDataIndex = 0;
+        renderContent.forEach((lineData, index) => {
+            if (index < lineY) allDataIndex += lineData.texts.length;
+        });
+
+        this.setDataPosition(allDataIndex + lineX);
     }
 
     setCursorPositionByData() {
-        this._left = this._getLineCursorPositionByData();
+        const { top, left } = this._getLineCursorPositionByData();
+        this._left = left;
+        this._top = top;
     }
 
     private _getLineCursorPositionByData() {
         const config = this._data.getConfg();
-        const lineData = this._data.getContent();
+        let top = config.pageMargin - COMPENSTATE_LEN / 2 + 1;
         let left = config.pageMargin - config.wordSpace / 2 - 0.5;
-        lineData.forEach((data, index) => {
-            if (this._dataPosition < index) {
-                return;
-            } else {
-                left = left + data.width + config.wordSpace;
+        const renderContent = this._data.getRenderContent();
+
+        if (renderContent.length > 0) {
+            for (const [lineY, line] of renderContent.entries()) {
+                if (this._renderDataPosition[0] === lineY) {
+                    break;
+                } else {
+                    top = top + line.height * config.lineHeight
+                }
             }
-        });
-        return left;
+
+            for (const [lineX, data] of renderContent[this._renderDataPosition[0]].texts.entries()) {
+                if (this._renderDataPosition[1] < lineX) {
+                    break;
+                } else {
+                    left = left + data.width + config.wordSpace;
+                }
+            }
+        }
+
+        return { top, left };
     }
 
-    private _getLineCursorPosition(lineData: IFontData[], x: number) {
+    private _getLineYCursorPosition(renderContent: ILineData[], y: number) {
+        const config = this._data.getConfg();
+        let top = config.pageMargin - COMPENSTATE_LEN / 2 + 1;
+        let lineY = 0;
+        const len = renderContent.length;
+        for(const [index, line] of renderContent.entries()) {
+            if (y < top + line.height * config.lineHeight) {
+                break;
+            } else {
+                if (index + 1 < len) {
+                    lineY++;
+                    top = top + line.height * config.lineHeight;
+                }
+            }
+        }
+        return { top, lineY };
+    }
+
+    private _getLineXCursorPosition(lineData: IFontData[], x: number) {
         const config = this._data.getConfg();
         let left = config.pageMargin - config.wordSpace / 2 - 0.5;
         let lineX = -1;
-        lineData.forEach(data => {
+        for(const data of lineData) {
             if (x < left + data.width / 2) {
-                return;
+                break;
             } else {
                 lineX++;
                 left = left + data.width + config.wordSpace;
             }
-        });
+        }
         return { left, lineX };
     }
 
     setCursorHeight(fontHeight: number) {
-        this._height = fontHeight;
+        const config = this._data.getConfg();
+        this._height = fontHeight * config.lineHeight + COMPENSTATE_LEN;
+    }
+
+    setRenderDataPosition() {
+        if (this._dataPosition === -1) {
+            this._renderDataPosition = [0, -1];
+        } else {
+            const renderContent = this._data.getRenderContent();
+            let x = 0;
+            for (const [line, lineData] of renderContent.entries()) {
+                if (this._dataPosition < x + lineData.texts.length) {
+                    this._renderDataPosition = [line, this._dataPosition - x];
+                    break;
+                } else {
+                    x = x + lineData.texts.length;
+                }
+            }
+        }
+    }
+
+    getRenderDataPosition() {
+        return this._renderDataPosition;
     }
 
     setDataPosition(position: number) {
         console.log(position);
         if (position < -1 || position >= this._data.getLength()) return;
         this._dataPosition = position;
+
+        this.setRenderDataPosition();
     }
 
     getDataPosition() {

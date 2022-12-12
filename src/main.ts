@@ -1,6 +1,6 @@
 import "@/style/index.css";
 import { Editor } from "./editor";
-import { Data } from "./editor/data";
+import { Data } from "./editor/Data";
 
 window.onload = () => {
     const container = document.querySelector<HTMLDivElement>("#editor")!;

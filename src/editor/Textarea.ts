@@ -12,11 +12,11 @@ export class Textarea {
         textarea.style.zIndex = "-100";
         textarea.style.right = "100px";
         // textarea.style.left = "-10000px";
-        // textarea.style.background = "transparent";
-        // textarea.style.border = "none";
-        // textarea.style.resize = "none";
-        // textarea.style.outline = "none";
-        // textarea.style.color = "transparent";
+        textarea.style.background = "transparent";
+        textarea.style.border = "none";
+        textarea.style.resize = "none";
+        textarea.style.outline = "none";
+        textarea.style.color = "transparent";
         this._container.append(textarea);
         return textarea;
     }

@@ -12,6 +12,7 @@ export interface IConfig {
     wordSpace: number;
     lineHeight: number;
     pageMargin: number;
+    pageWidth: number;
 }
 
 export interface IFontData {
@@ -24,4 +25,9 @@ export interface IFontData {
     fontFamily: string;
     fontColor: string;
     isChinese: boolean;
+}
+
+export interface ILineData {
+    height: number;
+    texts: IFontData[];
 }
