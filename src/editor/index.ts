@@ -151,9 +151,66 @@ export class Editor {
                 break;
             }
             case KEY_BOARD.TOP: {
+                const position = this._cursor.getDataPosition();
+                const renderPosition = this._cursor.getRenderDataPosition();
+                if (renderPosition[0] > 0) {
+                    const renderContent = this._data.getStashRenderContent();
+
+                    const currentLineData = renderContent[renderPosition[0]].texts;
+                    let currentLeft = 0;
+                    for (const [index, data] of currentLineData.entries()) {
+                        if (index < renderPosition[1]) {
+                            currentLeft += data.width;
+                        }
+                    }
+
+                    const upLineData = renderContent[renderPosition[0] - 1].texts;
+                    let upLineX = -1;
+                    let upLeft = 0;
+                    for (const data of upLineData) {
+                        if (upLeft < currentLeft) {
+                            upLineX++;
+                            upLeft += data.width
+                        } else {
+                            break;
+                        }
+                    }
+
+                    this._cursor.setDataPosition(position - (renderPosition[1] + upLineData.length - 1 - upLineX));
+                    this._cursor.setCursorPositionByData();
+                    this._cursor.updateCursor();
+                }
                 break;
             }
             case KEY_BOARD.BOTTOM: {
+                const position = this._cursor.getDataPosition();
+                const renderPosition = this._cursor.getRenderDataPosition();
+                const renderContent = this._data.getStashRenderContent();
+                if (renderPosition[0] < renderContent.length - 1) {
+                    const currentLineData = renderContent[renderPosition[0]].texts;
+                    let currentLeft = 0;
+                    for (const [index, data] of currentLineData.entries()) {
+                        if (index < renderPosition[1]) {
+                            currentLeft += data.width;
+                        }
+                    }
+
+                    const downLineData = renderContent[renderPosition[0] + 1].texts;
+                    let downLineX = -1;
+                    let downLeft = 0;
+                    for (const data of downLineData) {
+                        if (downLeft < currentLeft) {
+                            downLineX++;
+                            downLeft += data.width
+                        } else {
+                            break;
+                        }
+                    }
+
+                    this._cursor.setDataPosition(position + (currentLineData.length - renderPosition[1] + downLineX));
+                    this._cursor.setCursorPositionByData();
+                    this._cursor.updateCursor();
+                }
                 break;
             }
             case KEY_BOARD.ENTER: {

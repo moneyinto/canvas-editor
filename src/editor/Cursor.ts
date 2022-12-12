@@ -76,7 +76,6 @@ export class Cursor {
         const { left, lineX } = this._getLineXCursorPosition(lineData, x);
         this._left = left;
 
-        console.log(renderContent);
         let allDataIndex = 0;
         renderContent.forEach((lineData, index) => {
             if (index < lineY) allDataIndex += lineData.texts.length;
@@ -178,7 +177,6 @@ export class Cursor {
     }
 
     setDataPosition(position: number) {
-        console.log(position);
         if (position < -1 || position >= this._data.getLength()) return;
         this._dataPosition = position;
 
