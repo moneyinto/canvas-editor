@@ -332,6 +332,17 @@ const initData: IFontData[] = [
         isChinese: true
     },
     {
+        value: "\n",
+        fontSize: 16,
+        width: 0,
+        height: 0,
+        fontStyle: "normal",
+        fontWeight: "400",
+        fontFamily: "serif",
+        fontColor: "#444",
+        isChinese: false
+    },
+    {
         value: "c",
         fontSize: 16,
         width: 8.751998901367188,
@@ -477,7 +488,15 @@ export class Data {
         };
         let countWidth = 0;
         this._content.forEach(text => {
-            if (countWidth + text.width < width) {
+            if (text.value === "\n") {
+                if (lineData.height === 0) lineData.height = text.fontSize;
+                renderContent.push(lineData);
+                lineData = {
+                    height: 0,
+                    texts: [text]
+                };
+                countWidth = 0;
+            } else if (countWidth + text.width < width) {
                 // 一行数据可以摆得下
                 lineData.texts.push(text);
                 if (lineData.height < text.fontSize) lineData.height = text.fontSize;

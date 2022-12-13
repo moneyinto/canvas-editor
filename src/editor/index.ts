@@ -199,7 +199,7 @@ export class Editor {
                     let downLineX = -1;
                     let downLeft = 0;
                     for (const data of downLineData) {
-                        if (downLeft < currentLeft) {
+                        if (downLeft <= currentLeft) {
                             downLineX++;
                             downLeft += data.width
                         } else {
@@ -214,6 +214,26 @@ export class Editor {
                 break;
             }
             case KEY_BOARD.ENTER: {
+                const config = this._data.getConfg();
+                const text: IFontData = {
+                    value: "\n",
+                    fontSize: config.fontSize,
+                    fontFamily: config.fontFamily,
+                    fontWeight: config.fontWeight,
+                    fontColor: config.fontColor,
+                    fontStyle: config.fontStyle,
+                    width: 0,
+                    height: 0,
+                    isChinese: false
+                };
+                const currentDataPosition = this._cursor.getDataPosition();
+                this._data.addContent(text, currentDataPosition + 1);
+
+                this._cursor.setDataPosition(currentDataPosition + 1);
+                this._cursor.setCursorPositionByData();
+                this._cursor.updateCursor();
+
+                this._renderRichText();
                 break;
             }
             case KEY_BOARD.BACKSPACE: {
@@ -293,8 +313,11 @@ export class Editor {
 
         lineTexts.forEach(lineData => {
             lineData.texts.forEach(text => {
-                this._fillText(text, x, y);
-                x = x + text.width + config.wordSpace;
+                // 排除换行情况
+                if (text.value !== "\n") {
+                    this._fillText(text, x, y);
+                    x = x + text.width + config.wordSpace;
+                }
             });
             x = config.pageMargin;
             y = y + lineData.height * config.lineHeight;
