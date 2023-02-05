@@ -13,10 +13,13 @@ export class Editor {
 
     private _data: Data;
     private _cursor: Cursor;
+    private _selectArea: [number, number, number, number] | null;
 
     private _click: IMouseClick | null;
     constructor(container: HTMLDivElement, data: Data) {
         this._container = container;
+
+        this._selectArea = null;
 
         this._click = null;
 
@@ -65,6 +68,7 @@ export class Editor {
         window.addEventListener("resize", this._resize.bind(this));
 
         this._canvas.addEventListener("mousedown", this._onMouseDown.bind(this));
+        this._canvas.addEventListener("mousemove", this._onMouseMove.bind(this));
         this._canvas.addEventListener("mouseup", this._onMouseUp.bind(this));
 
         this._textarea.addEventListener("change", (input) => {
@@ -82,28 +86,61 @@ export class Editor {
     }
 
     _onMouseDown(e: MouseEvent) {
+        const renderContent = this._data.getRenderContent();
+        const { textX, textY } = this._cursor.getCursorPosition(e.clientX, e.clientY, renderContent);
+
         this._click = {
             x: e.clientX,
-            y: e.clientY
+            y: e.clientY,
+            textX: textX + 1,
+            textY
         };
+
+        this._focus(this._click.x, this._click.y);
+
+        this._selectArea = null;
+        this._renderRichText();
+    }
+
+    _onMouseMove(e: MouseEvent) {
+        e.preventDefault();
+        if (this._click) {
+            const renderContent = this._data.getRenderContent();
+            const { textX, textY } = this._cursor.getCursorPosition(e.clientX, e.clientY, renderContent);
+            let startX = this._click.textX;
+            let startY = this._click.textY;
+            let endX = textX+ 1;
+            let endY = textY;
+            if (endY < startY) {
+                endX = this._click.textX;
+                endY = this._click.textY;
+                startX = textX + 1;
+                startY = textY;
+            } else if (endY === startY && startX > endX) {
+                endX = this._click.textX;
+                startX = textX + 1;
+            }
+
+            this._selectArea = [startX, startY, endX, endY];
+
+            this._renderRichText();
+        }
     }
 
     _onMouseUp(e: MouseEvent) {
         e.preventDefault();
 
-        if (this._click) {
-            this._focus(this._click.x, this._click.y);
-        }
-
         this._click = null;
     }
 
     _focus(x: number, y: number) {
-        this._textarea.focus();
         // 暂时默认到最后
         this._cursor.setCursorPosition(x, y);
         this._cursor.updateCursor();
         this._cursor.showCursor();
+        setTimeout(() => {
+            this._textarea.focus();
+        }, 100);
     }
 
     _blur() {
@@ -304,6 +341,14 @@ export class Editor {
         this._ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
     }
 
+    _renderRange({ x, y, width, height }: any) {
+        this._ctx.save();
+        this._ctx.globalAlpha = 0.6;
+        this._ctx.fillStyle = "#AECBFA";
+        this._ctx.fillRect(x, y, width, height);
+        this._ctx.restore();
+    }
+
     _renderRichText() {
         this._clear();
         const lineTexts = this._data.getRenderContent();
@@ -311,7 +356,12 @@ export class Editor {
         let x = config.pageMargin;
         let y = config.pageMargin;
 
-        lineTexts.forEach(lineData => {
+        lineTexts.forEach((lineData, index) => {
+            if (this._selectArea) {
+                const rangeRecord = this._data.getRenderSelect(x, y, lineData, index, this._selectArea);
+                if (rangeRecord) this._renderRange(rangeRecord);
+            }
+
             lineData.texts.forEach(text => {
                 // 排除换行情况
                 if (text.value !== "\n") {

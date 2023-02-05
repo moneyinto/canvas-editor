@@ -487,7 +487,7 @@ export class Data {
             texts: []
         };
         let countWidth = 0;
-        this._content.forEach(text => {
+        this._content.forEach((text) => {
             if (text.value === "\n") {
                 if (lineData.height === 0) lineData.height = text.fontSize;
                 renderContent.push(lineData);
@@ -499,7 +499,8 @@ export class Data {
             } else if (countWidth + text.width < width) {
                 // 一行数据可以摆得下
                 lineData.texts.push(text);
-                if (lineData.height < text.fontSize) lineData.height = text.fontSize;
+                if (lineData.height < text.fontSize)
+                    lineData.height = text.fontSize;
                 countWidth = countWidth + text.width + this._config.wordSpace;
             } else {
                 renderContent.push(lineData);
@@ -516,6 +517,64 @@ export class Data {
         this._renderContent = renderContent;
 
         return renderContent;
+    }
+
+    getRenderSelect(
+        x: number,
+        y: number,
+        lineData: ILineData,
+        index: number,
+        selectArea: [number, number, number, number]
+    ) {
+        if (index >= selectArea[1] && index <= selectArea[3]) {
+            let startX = 0;
+            let endX = 0;
+            if (selectArea[1] === selectArea[3]) {
+                // 仅选中该行
+                startX = selectArea[0];
+                endX = selectArea[2];
+            } else if (selectArea[1] === index) {
+                // 选中的第一行
+                startX = selectArea[0];
+                endX = lineData.texts.length;
+            } else if (index < selectArea[3]) {
+                // 选中中间的行
+                startX = 0;
+                endX = lineData.texts.length;
+            } else if (index === selectArea[3]) {
+                // 选中的最后一行
+                startX = 0;
+                endX = selectArea[2];
+            }
+
+            if (startX === endX) return undefined;
+
+            // 存在选中区域
+            if (startX > 0) {
+                x += lineData.texts
+                    .filter(text => text.value !== "\n")
+                    .slice(0, startX)
+                    .map((text) => text.width)
+                    .reduce((acr, cur) => {
+                        return acr + cur + this._config.wordSpace;
+                    });
+            }
+
+            const width = lineData.texts
+                .filter(text => text.value !== "\n")
+                .slice(startX, endX)
+                .map((text) => text.width)
+                .reduce((acr, cur) => {
+                    return acr + cur + this._config.wordSpace;
+                });
+            return {
+                x,
+                y,
+                width: width + this._config.wordSpace,
+                height: lineData.height * this._config.lineHeight
+            };
+        }
+        return undefined;
     }
 
     getStashRenderContent() {

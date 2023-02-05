@@ -1,6 +1,8 @@
 export interface IMouseClick {
     x: number;
     y: number;
+    textX: number;
+    textY: number;
 }
 
 export interface IConfig {

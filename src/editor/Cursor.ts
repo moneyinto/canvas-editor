@@ -44,6 +44,7 @@ export class Cursor {
         cursor.style.position = "absolute";
         cursor.style.background = "black";
         cursor.style.display = "none";
+        cursor.style.userSelect = "none";
         cursor.classList.add("editor-cursor");
 
         this._cursor = cursor;
@@ -65,23 +66,30 @@ export class Cursor {
         this._cursor.style.height = `${this._height}px`;
     }
 
-    setCursorPosition(x: number, y: number) {
+    getCursorPosition(x: number, y: number, renderContent: ILineData[]) {
         // 先计算属于哪一行
-        const renderContent = this._data.getRenderContent();
-        const { top, lineY } = this._getLineYCursorPosition(renderContent, y);
-        this._top = top;
+        const { top, textY } = this._getTextYCursorPosition(renderContent, y);
 
         // 计算在某行的位置
-        const lineData = renderContent[lineY].texts;
-        const { left, lineX } = this._getLineXCursorPosition(lineData, x);
+        const lineData = renderContent[textY].texts;
+        const { left, textX } = this._getTextXCursorPosition(lineData, x);
+
+        return { left, textX, top, textY };
+    }
+
+    setCursorPosition(x: number, y: number) {
+        const renderContent = this._data.getRenderContent();
+
+        const { left, textX, top, textY } = this.getCursorPosition(x, y, renderContent);
+        this._top = top;
         this._left = left;
 
         let allDataIndex = 0;
         renderContent.forEach((lineData, index) => {
-            if (index < lineY) allDataIndex += lineData.texts.length;
+            if (index < textY) allDataIndex += lineData.texts.length;
         });
 
-        this.setDataPosition(allDataIndex + lineX);
+        this.setDataPosition(allDataIndex + textX);
     }
 
     setCursorPositionByData() {
@@ -117,37 +125,37 @@ export class Cursor {
         return { top, left };
     }
 
-    private _getLineYCursorPosition(renderContent: ILineData[], y: number) {
+    private _getTextYCursorPosition(renderContent: ILineData[], y: number) {
         const config = this._data.getConfg();
         let top = config.pageMargin - COMPENSTATE_LEN / 2 + 1;
-        let lineY = 0;
+        let textY = 0;
         const len = renderContent.length;
         for(const [index, line] of renderContent.entries()) {
             if (y < top + line.height * config.lineHeight) {
                 break;
             } else {
                 if (index + 1 < len) {
-                    lineY++;
+                    textY++;
                     top = top + line.height * config.lineHeight;
                 }
             }
         }
-        return { top, lineY };
+        return { top, textY };
     }
 
-    private _getLineXCursorPosition(lineData: IFontData[], x: number) {
+    private _getTextXCursorPosition(lineData: IFontData[], x: number) {
         const config = this._data.getConfg();
         let left = config.pageMargin - config.wordSpace / 2 - 0.5;
-        let lineX = -1;
+        let textX = -1;
         for(const data of lineData) {
             if (x < left + data.width / 2) {
                 break;
             } else {
-                lineX++;
+                textX++;
                 left = left + data.width + config.wordSpace;
             }
         }
-        return { left, lineX };
+        return { left, textX };
     }
 
     setCursorHeight(fontHeight: number) {
