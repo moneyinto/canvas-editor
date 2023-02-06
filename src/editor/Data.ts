@@ -552,7 +552,6 @@ export class Data {
             // 存在选中区域
             if (startX > 0) {
                 x += lineData.texts
-                    .filter(text => text.value !== "\n")
                     .slice(0, startX)
                     .map((text) => text.width)
                     .reduce((acr, cur) => {
@@ -561,7 +560,6 @@ export class Data {
             }
 
             const width = lineData.texts
-                .filter(text => text.value !== "\n")
                 .slice(startX, endX)
                 .map((text) => text.width)
                 .reduce((acr, cur) => {
