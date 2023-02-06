@@ -488,12 +488,13 @@ export class Data {
         };
         let countWidth = 0;
         this._content.forEach((text) => {
+            if (lineData.height === 0) lineData.height = text.fontSize;
             if (text.value === "\n") {
-                if (lineData.height === 0) lineData.height = text.fontSize;
+                lineData.texts.push(text);
                 renderContent.push(lineData);
                 lineData = {
                     height: 0,
-                    texts: [text]
+                    texts: []
                 };
                 countWidth = 0;
             } else if (countWidth + text.width < width) {
@@ -515,7 +516,7 @@ export class Data {
         if (lineData.texts.length > 0) renderContent.push(lineData);
 
         this._renderContent = renderContent;
-
+        console.log(renderContent);
         return renderContent;
     }
 

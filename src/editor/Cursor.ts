@@ -170,7 +170,7 @@ export class Cursor {
             const renderContent = this._data.getRenderContent();
             let x = 0;
             for (const [line, lineData] of renderContent.entries()) {
-                if (this._dataPosition < x + lineData.texts.length) {
+                if (this._dataPosition < x + lineData.texts.length - 1) {
                     this._renderDataPosition = [line, this._dataPosition - x];
                     break;
                 } else {
