@@ -451,6 +451,17 @@ const initData: IFontData[] = [
         fontFamily: "serif",
         fontColor: "#444",
         isChinese: true
+    },
+    {
+        value: "\n",
+        fontSize: 16,
+        width: 0,
+        height: 0,
+        fontStyle: "normal",
+        fontWeight: "400",
+        fontFamily: "serif",
+        fontColor: "#444",
+        isChinese: false
     }
 ];
 
@@ -513,7 +524,7 @@ export class Data {
             }
         });
 
-        if (lineData.texts.length > 0) renderContent.push(lineData);
+        // if (lineData.texts.length > 0) renderContent.push(lineData);
 
         this._renderContent = renderContent;
         console.log(renderContent);

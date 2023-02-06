@@ -170,6 +170,7 @@ export class Cursor {
             const renderContent = this._data.getRenderContent();
             let x = 0;
             for (const [line, lineData] of renderContent.entries()) {
+                console.log(this._dataPosition, x + lineData.texts.length);
                 if (this._dataPosition < x + lineData.texts.length - 1) {
                     this._renderDataPosition = [line, this._dataPosition - x];
                     break;
@@ -185,7 +186,7 @@ export class Cursor {
     }
 
     setDataPosition(position: number) {
-        if (position < -1 || position >= this._data.getLength()) return;
+        if (position < -1 || position >= this._data.getLength() - 1) return;
         this._dataPosition = position;
 
         this.setRenderDataPosition();
