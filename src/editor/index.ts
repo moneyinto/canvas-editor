@@ -365,7 +365,7 @@ export class Editor {
             lineData.texts.forEach(text => {
                 // 排除换行情况
                 if (text.value !== "\n") {
-                    this._fillText(text, x, y);
+                    this._fillText(text, x, y, lineData.height);
                     x = x + text.width + config.wordSpace;
                 }
             });
@@ -374,11 +374,11 @@ export class Editor {
         });
     }
 
-    _fillText(text: IFontData, x: number, y: number) {
+    _fillText(text: IFontData, x: number, y: number, maxHeight: number) {
         this._ctx.textBaseline = "top";
         const config = this._data.getConfg();
         this._ctx.font = `${text.fontStyle} ${text.fontWeight} ${text.fontSize}px ${text.fontFamily}`;
-        const offsetY = (config.lineHeight - 1) * text.fontSize / 2;
+        const offsetY = (maxHeight * config.lineHeight - text.fontSize) / 2;
         this._ctx.fillText(text.value, x, y + offsetY, text.fontSize);
     }
 }
