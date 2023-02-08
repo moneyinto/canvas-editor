@@ -14,11 +14,11 @@ window.onload = () => {
     };
     
     window.setAddFontSize = () => {
-        console.log("增大字体");
+        instance.setFontSize("large");
     };
     
     window.setReduceFontSize = () => {
-        console.log("减小字体");
+        instance.setFontSize("small");
     };
     
     window.setFontBold = () => {

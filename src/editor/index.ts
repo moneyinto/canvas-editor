@@ -13,6 +13,7 @@ export class Editor {
 
     private _data: Data;
     private _cursor: Cursor;
+    // [开始字坐标，开始行坐标，结束字坐标，结束行坐标]
     private _selectArea: [number, number, number, number] | null;
 
     private _click: IMouseClick | null;
@@ -42,6 +43,30 @@ export class Editor {
 
     public getConfig() {
         return this._data.getConfg();
+    }
+
+    public setFontSize(type: "large" | "small") {
+        if (this._selectArea) {
+            const renderContent = this._data.getRenderContent();
+            const [ startX, startY, endX, endY ] = this._selectArea;
+            renderContent.forEach((lineData, line) => {
+                if (line >= startY && line <= endY) {
+                    lineData.texts.forEach((text, index) => {
+                        if (startX <= index && index < endX) {
+                            if (type === "large") {
+                                text.fontSize += 2;
+                            } else {
+                                text.fontSize -= 2;
+                            }
+                            const { width, height } = this._getFontSize(text);
+                            text.width = width;
+                            text.height = height;
+                        }
+                    });
+                }
+            });
+            this._renderRichText();
+        }
     }
 
     private _createCanvas() {
@@ -132,7 +157,11 @@ export class Editor {
 
     private _onMouseUp(e: MouseEvent) {
         e.preventDefault();
-        this._focus(e.offsetX, e.offsetY);
+        if (!this._selectArea || (this._selectArea && this._selectArea[0] === this._selectArea[2] && this._selectArea[1] === this._selectArea[3])) {
+            // 未选中
+            this._focus(e.offsetX, e.offsetY);
+            this._selectArea = null;
+        }
         this._click = null;
     }
 
