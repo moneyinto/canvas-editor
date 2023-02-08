@@ -131,6 +131,7 @@ export class Cursor {
         let textY = 0;
         const len = renderContent.length;
         for(const [index, line] of renderContent.entries()) {
+            this.setCursorHeight(line.height);
             if (y < top + line.height * config.lineHeight) {
                 break;
             } else {
@@ -158,9 +159,9 @@ export class Cursor {
         return { left, textX };
     }
 
-    setCursorHeight(fontHeight: number) {
+    setCursorHeight(height: number) {
         const config = this._data.getConfg();
-        this._height = fontHeight * config.lineHeight + COMPENSTATE_LEN;
+        this._height = height * config.lineHeight + COMPENSTATE_LEN;
     }
 
     setRenderDataPosition() {

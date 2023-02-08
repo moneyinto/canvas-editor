@@ -1,6 +1,17 @@
 body {
     margin: 0;
     overflow: hidden;
+    background-color: #F2F4F7;
+}
+
+.canvas-editor {
+    width: 794px;
+    height: 1123px;
+    background-color: #ffffff;
+    cursor: text;
+    box-shadow: #9ea1a566 0 2px 12px;
+    margin: auto;
+    position: relative;
 }
 
 .editor-cursor {

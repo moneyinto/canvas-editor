@@ -41,8 +41,8 @@ export class Editor {
     }
 
     _createCanvas() {
-        const width = window.innerWidth;
-        const height = window.innerHeight;
+        const width = this._container.clientWidth;
+        const height = this._container.clientHeight;
         const canvas = document.createElement("canvas");
         canvas.style.background = "#fff";
         const dpr = window.devicePixelRatio;
@@ -56,8 +56,8 @@ export class Editor {
     }
 
     _resize() {
-        const width = window.innerWidth;
-        const height = window.innerHeight;
+        const width = this._container.clientWidth;
+        const height = this._container.clientHeight;
         this._canvas.width = width;
         this._canvas.height = height;
     }
@@ -87,11 +87,11 @@ export class Editor {
 
     _onMouseDown(e: MouseEvent) {
         const renderContent = this._data.getRenderContent();
-        const { textX, textY } = this._cursor.getCursorPosition(e.clientX, e.clientY, renderContent);
+        const { textX, textY } = this._cursor.getCursorPosition(e.offsetX, e.offsetY, renderContent);
 
         this._click = {
-            x: e.clientX,
-            y: e.clientY,
+            x: e.offsetX,
+            y: e.offsetY,
             textX: textX + 1,
             textY
         };
@@ -106,7 +106,7 @@ export class Editor {
         e.preventDefault();
         if (this._click) {
             const renderContent = this._data.getRenderContent();
-            const { textX, textY } = this._cursor.getCursorPosition(e.clientX, e.clientY, renderContent);
+            const { textX, textY } = this._cursor.getCursorPosition(e.offsetX, e.offsetY, renderContent);
             let startX = this._click.textX;
             let startY = this._click.textY;
             let endX = textX+ 1;
