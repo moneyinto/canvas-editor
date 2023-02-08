@@ -100,8 +100,7 @@ export class Editor {
             textY
         };
 
-        this._focus(this._click.x, this._click.y);
-
+        this._cursor.hideCursor();
         this._selectArea = null;
         this._renderRichText();
     }
@@ -133,7 +132,7 @@ export class Editor {
 
     private _onMouseUp(e: MouseEvent) {
         e.preventDefault();
-
+        this._focus(e.offsetX, e.offsetY);
         this._click = null;
     }
 
