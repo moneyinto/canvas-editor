@@ -31,3 +31,36 @@ body {
         opacity: 0;
     }
 }
+
+.editor-tools {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    justify-content: center;
+}
+
+.tool-btn {
+    cursor: pointer;
+    position: relative;
+}
+
+.tool-btn:hover {
+    background-color: #e2e6ed;
+}
+
+.tool-btn img {
+    user-select: none;
+    -webkit-user-drag: none;
+    display: block;
+}
+
+.tool-font-color {
+    overflow: hidden;
+}
+
+.tool-font-color input {
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+}

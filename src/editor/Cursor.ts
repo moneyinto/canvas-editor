@@ -53,6 +53,7 @@ export class Cursor {
 
     hideCursor() {
         this._cursor!.style.display = "none";
+        console.log("hide cursor");
     }
 
     showCursor() {

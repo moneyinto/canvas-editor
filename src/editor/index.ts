@@ -40,7 +40,11 @@ export class Editor {
         this._renderRichText();
     }
 
-    _createCanvas() {
+    public getConfig() {
+        return this._data.getConfg();
+    }
+
+    private _createCanvas() {
         const width = this._container.clientWidth;
         const height = this._container.clientHeight;
         const canvas = document.createElement("canvas");
@@ -55,16 +59,16 @@ export class Editor {
         return { canvas, ctx };
     }
 
-    _resize() {
+    private _resize() {
         const width = this._container.clientWidth;
         const height = this._container.clientHeight;
         this._canvas.width = width;
         this._canvas.height = height;
     }
 
-    _unbindEvents() {}
+    private _unbindEvents() {}
 
-    _bindEvents() {
+    private _bindEvents() {
         window.addEventListener("resize", this._resize.bind(this));
 
         this._canvas.addEventListener("mousedown", this._onMouseDown.bind(this));
@@ -85,7 +89,7 @@ export class Editor {
         this._textarea.addEventListener("keydown", e => this._onKeydown(e as KeyboardEvent));
     }
 
-    _onMouseDown(e: MouseEvent) {
+    private _onMouseDown(e: MouseEvent) {
         const renderContent = this._data.getRenderContent();
         const { textX, textY } = this._cursor.getCursorPosition(e.offsetX, e.offsetY, renderContent);
 
@@ -102,7 +106,7 @@ export class Editor {
         this._renderRichText();
     }
 
-    _onMouseMove(e: MouseEvent) {
+    private _onMouseMove(e: MouseEvent) {
         e.preventDefault();
         if (this._click) {
             const renderContent = this._data.getRenderContent();
@@ -127,13 +131,13 @@ export class Editor {
         }
     }
 
-    _onMouseUp(e: MouseEvent) {
+    private _onMouseUp(e: MouseEvent) {
         e.preventDefault();
 
         this._click = null;
     }
 
-    _focus(x: number, y: number) {
+    private _focus(x: number, y: number) {
         // 暂时默认到最后
         this._cursor.setCursorPosition(x, y);
         this._cursor.updateCursor();
@@ -143,12 +147,13 @@ export class Editor {
         }, 100);
     }
 
-    _blur() {
+    private _blur(e: Event) {
+        e.preventDefault();
         this._textarea.blur();
         this._cursor.hideCursor();
     }
 
-    _onInput(e: InputEvent) {
+    private _onInput(e: InputEvent) {
         if (e.inputType === "insertText" && e.data) {
             // 非输入中文
             console.log("== 文字", e.data);
@@ -156,11 +161,11 @@ export class Editor {
         }
     }
 
-    _onCompStart(e: CompositionEvent) {
+    private _onCompStart(e: CompositionEvent) {
         console.log("=== 开始输入中文", e);
     }
 
-    _onCompEnd(e: CompositionEvent) {
+    private _onCompEnd(e: CompositionEvent) {
         console.log("=== 结束输入中文", e.data);
         if (e.data) {
             const valueArr = e.data.split("");
@@ -170,7 +175,7 @@ export class Editor {
         }
     }
 
-    _onKeydown(e: KeyboardEvent) {
+    private _onKeydown(e: KeyboardEvent) {
         console.log(e.key);
         switch(e.key) {
             case KEY_BOARD.LEFT: {
@@ -280,7 +285,7 @@ export class Editor {
         }
     }
 
-    _deleteText(direction: 0 | 1 = 0) {
+    private _deleteText(direction: 0 | 1 = 0) {
         // direction 删除方向  0 向前删除 1 向后删除
         const position = this._cursor.getDataPosition();
         const result = this._data.deleteContent(position + direction);
@@ -295,7 +300,7 @@ export class Editor {
         }
     }
 
-    _inputText(value: string) {
+    private _inputText(value: string) {
         const config = this._data.getConfg();
         const text: IFontData = {
             value,
@@ -328,7 +333,7 @@ export class Editor {
         this._textarea.value = "";
     }
 
-    _getFontSize(text: IFontData) {
+    private _getFontSize(text: IFontData) {
         this._ctx.font = `${text.fontStyle} ${text.fontWeight} ${text.fontSize}px ${text.fontFamily}`;
         const metrics = this._ctx.measureText(text.value);
         console.log(metrics);
@@ -337,11 +342,11 @@ export class Editor {
         return { width, height };
     }
 
-    _clear() {
+    private _clear() {
         this._ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
     }
 
-    _renderRange({ x, y, width, height }: any) {
+    private _renderRange({ x, y, width, height }: any) {
         this._ctx.save();
         this._ctx.globalAlpha = 0.6;
         this._ctx.fillStyle = "#AECBFA";
@@ -349,7 +354,7 @@ export class Editor {
         this._ctx.restore();
     }
 
-    _renderRichText() {
+    private _renderRichText() {
         this._clear();
         const lineTexts = this._data.getRenderContent();
         const config = this._data.getConfg();
@@ -374,7 +379,7 @@ export class Editor {
         });
     }
 
-    _fillText(text: IFontData, x: number, y: number, maxHeight: number) {
+    private _fillText(text: IFontData, x: number, y: number, maxHeight: number) {
         this._ctx.textBaseline = "top";
         const config = this._data.getConfg();
         this._ctx.font = `${text.fontStyle} ${text.fontWeight} ${text.fontSize}px ${text.fontFamily}`;

@@ -7,6 +7,30 @@
     <title>canvas 编辑文本</title>
 </head>
 <body>
+    <div class="editor-tools">
+        <div class="tool-btn" onclick="setAddFontSize()">
+            <img src="/src/assets/icons/font-add.svg" alt="">
+        </div>
+        <div class="tool-btn" onclick="setReduceFontSize()">
+            <img src="/src/assets/icons/font-reduce.svg" alt="">
+        </div>
+        <div class="tool-btn" onclick="setFontBold()">
+            <img src="/src/assets/icons/font-bold.svg" alt="">
+        </div>
+        <div class="tool-btn" onclick="setFontItalic()">
+            <img src="/src/assets/icons/font-italic.svg" alt="">
+        </div>
+        <div class="tool-btn" onclick="setFontUnderLine()">
+            <img src="/src/assets/icons/font-underline.svg" alt="">
+        </div>
+        <div class="tool-btn" onclick="setFontStrikeout()">
+            <img src="/src/assets/icons/font-strikeout.svg" alt="">
+        </div>
+        <div class="tool-btn tool-font-color">
+            <img src="/src/assets/icons/font-color.svg" alt="">
+            <input type="color" onchange="setFontColor(event)" />
+        </div>
+    </div>
     <div class="canvas-editor" id="editor"></div>
     <script type="module" src="/src/main.ts"></script>
 </body>
