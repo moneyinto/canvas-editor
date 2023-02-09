@@ -92,6 +92,15 @@ export class Editor {
         });
     }
 
+    public setFontItalic(isItalic: boolean) {
+        this._forSelectTexts((text) => {
+            text.fontStyle = isItalic ? "italic" : "normal";
+            const { width, height } = this._getFontSize(text);
+            text.width = width;
+            text.height = height;
+        });
+    }
+
     private _createCanvas() {
         const width = this._container.clientWidth;
         const height = this._container.clientHeight;
@@ -199,7 +208,7 @@ export class Editor {
             fontSize: fontConfig.fontSize,
             fontColor: fontConfig.fontColor,
             fontFamily: fontConfig.fontFamily,
-            fontStyle: fontConfig.fontStyle
+            fontStyle: "italic"
         };
 
         // 此处处理获取选中文本公共样式部分
@@ -265,17 +274,15 @@ export class Editor {
     private _onInput(e: InputEvent) {
         if (e.inputType === "insertText" && e.data) {
             // 非输入中文
-            console.log("== 文字", e.data);
             this._inputText(e.data);
         }
     }
 
     private _onCompStart(e: CompositionEvent) {
-        console.log("=== 开始输入中文", e);
+        // console.log("=== 开始输入中文", e);
     }
 
     private _onCompEnd(e: CompositionEvent) {
-        console.log("=== 结束输入中文", e.data);
         if (e.data) {
             const valueArr = e.data.split("");
             valueArr.forEach((value) => {
@@ -285,7 +292,6 @@ export class Editor {
     }
 
     private _onKeydown(e: KeyboardEvent) {
-        console.log(e.key);
         switch(e.key) {
             case KEY_BOARD.LEFT: {
                 const position = this._cursor.getDataPosition();
@@ -445,7 +451,6 @@ export class Editor {
     private _getFontSize(text: IFontData) {
         this._ctx.font = `${text.fontStyle} ${text.fontWeight} ${text.fontSize}px ${text.fontFamily}`;
         const metrics = this._ctx.measureText(text.value);
-        console.log(metrics);
         const width = metrics.width;
         const height = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
         return { width, height };

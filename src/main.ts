@@ -11,11 +11,15 @@ window.onload = () => {
     console.log("实例", instance);
 
     let isBold = false;
+    let isItalic = false;
     const boldBtn = document.querySelector<HTMLDivElement>(".tool-btn-bold");
+    const italicBtn = document.querySelector<HTMLDivElement>(".tool-btn-italic");
 
     const fontChange = (config: ICurrentFontConfig) => {
         isBold = config.fontWeight === "bold";
+        isItalic = config.fontStyle === "italic";
         setBoldBthStyle();
+        setItalicBtnStyle();
     };
 
     instance.listener.onSelectChange = fontChange;
@@ -26,6 +30,14 @@ window.onload = () => {
             boldBtn?.classList.add("active");
         } else {
             boldBtn?.classList.remove("active");
+        }
+    }
+
+    const setItalicBtnStyle = () => {
+        if (isItalic) {
+            italicBtn?.classList.add("active");
+        } else {
+            italicBtn?.classList.remove("active");
         }
     }
 
@@ -50,7 +62,11 @@ window.onload = () => {
     };
     
     window.setFontItalic = () => {
-        console.log("斜体");
+        if (instance.isSelectContent) {
+            isItalic = !isItalic;
+            instance.setFontItalic(isItalic);
+            setItalicBtnStyle();
+        }
     };
     
     window.setFontUnderLine = () => {

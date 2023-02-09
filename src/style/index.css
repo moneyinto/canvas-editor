@@ -42,6 +42,7 @@ body {
 .tool-btn {
     cursor: pointer;
     position: relative;
+    margin: 0 5px;
 }
 
 .tool-btn:hover {
