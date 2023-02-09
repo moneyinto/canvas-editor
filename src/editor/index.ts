@@ -112,12 +112,13 @@ export class Editor {
         const height = this._container.clientHeight;
         this._canvas.width = width;
         this._canvas.height = height;
+        this._renderRichText();
     }
 
     private _unbindEvents() {}
 
     private _bindEvents() {
-        window.addEventListener("resize", this._resize.bind(this));
+        // window.addEventListener("resize", this._resize.bind(this));
 
         this._canvas.addEventListener("mousedown", this._onMouseDown.bind(this));
         this._canvas.addEventListener("mousemove", this._onMouseMove.bind(this));
