@@ -17,3 +17,8 @@ export const isEnglish = (text: string) => {
 export const isNumber = (text: string) => {
     return numberPattern.test(text);
 };
+
+export const deepClone = (obj: any) => {
+    if (!obj) return obj;
+    return JSON.parse(JSON.stringify(obj));
+};

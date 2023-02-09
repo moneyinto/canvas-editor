@@ -45,11 +45,11 @@ body {
 }
 
 .tool-btn:hover {
-    background-color: #e2e6ed;
+    background-color: rgba(25, 55, 88, 0.04);
 }
 
 .tool-btn.active {
-    background-color: #e2e6ed;
+    background-color: rgba(25, 55, 88, 0.08);
 }
 
 .tool-btn img {

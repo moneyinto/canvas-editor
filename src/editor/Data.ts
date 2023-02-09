@@ -1,4 +1,5 @@
 import { IConfig, IFontData, ILineData } from "./type";
+import { deepClone } from "./util";
 
 const initData: IFontData[] = [
     {
@@ -465,25 +466,38 @@ const initData: IFontData[] = [
     }
 ];
 
+const baseConfig = {
+    fontSize: 16,
+    fontWeight: "normal",
+    fontFamily: "serif",
+    fontColor: "#444",
+    fontStyle: "normal",
+    wordSpace: 1,
+    lineHeight: 1.2,
+    pageMargin: 10,
+    pageWidth: 200
+};
+
 export class Data {
     private _content: IFontData[];
     private _renderContent: ILineData[];
     private _config: IConfig;
     constructor() {
         this._content = initData;
-        this._config = {
-            fontSize: 16,
-            fontWeight: "normal",
-            fontFamily: "serif",
-            fontColor: "#444",
-            fontStyle: "normal",
-            wordSpace: 1,
-            lineHeight: 1.2,
-            pageMargin: 10,
-            pageWidth: 200
-        };
+        this._config = deepClone(baseConfig);
 
         this._renderContent = [];
+    }
+
+    resetConfig() {
+        this._config = deepClone(baseConfig);
+    }
+
+    updateConfig(props: Partial<IConfig>) {
+        this._config = {
+            ...this._config,
+            ...props
+        }
     }
 
     getContent() {

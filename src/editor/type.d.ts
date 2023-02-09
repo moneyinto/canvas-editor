@@ -35,7 +35,7 @@ export interface ILineData {
 }
 
 export interface ICurrentFontConfig {
-    bold: boolean;
+    fontWeight?: string;
     fontSize?: number;
     fontFamily?: string;
     fontColor?: string;
@@ -43,3 +43,5 @@ export interface ICurrentFontConfig {
 }
 
 export type IOnSelectChange = (config: ICurrentFontConfig) => void;
+
+export type IOnCursorChange = (config: ICurrentFontConfig) => void;

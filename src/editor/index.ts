@@ -194,7 +194,7 @@ export class Editor {
     private _dealCurrentSelectStyle() {
         const fontConfig = this.config;
         const currentFontConfig: ICurrentFontConfig = {
-            bold: true,
+            fontWeight: "bold",
             fontSize: fontConfig.fontSize,
             fontColor: fontConfig.fontColor,
             fontFamily: fontConfig.fontFamily,
@@ -205,7 +205,7 @@ export class Editor {
         this._forSelectTexts((text) => {
             if (text.fontWeight === "normal") {
                 // 存在一个不是加粗的，当前样式展示就是不加粗的
-                currentFontConfig.bold = false;
+                currentFontConfig.fontWeight = "normal";
             }
 
             if (currentFontConfig.fontSize && text.fontSize !== currentFontConfig.fontSize) {
@@ -233,6 +233,22 @@ export class Editor {
         this._cursor.setCursorPosition(x, y);
         this._cursor.updateCursor();
         this._cursor.showCursor();
+
+        // 获取前一个字的样式，设置config
+        const currentDataPosition = this._cursor.getDataPosition();
+        const content = this._data.getContent();
+        const text = content[currentDataPosition];
+        const config = {
+            fontSize: text.fontSize,
+            fontColor: text.fontColor,
+            fontFamily: text.fontFamily,
+            fontStyle: text.fontStyle,
+            fontWeight: text.fontWeight
+        };
+        this._data.updateConfig(config);
+
+        this.listener.onCursorChange && this.listener.onCursorChange(config);
+
         setTimeout(() => {
             this._textarea.focus();
         }, 100);

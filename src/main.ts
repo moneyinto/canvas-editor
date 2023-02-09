@@ -1,6 +1,7 @@
 import "@/style/index.css";
 import { Editor } from "./editor";
 import { Data } from "./editor/Data";
+import { ICurrentFontConfig } from "./editor/type";
 
 window.onload = () => {
     const container = document.querySelector<HTMLDivElement>("#editor")!;
@@ -12,11 +13,13 @@ window.onload = () => {
     let isBold = false;
     const boldBtn = document.querySelector<HTMLDivElement>(".tool-btn-bold");
 
-    instance.listener.onSelectChange = (config) => {
-        isBold = config.bold;
-        console.log(config, boldBtn);
+    const fontChange = (config: ICurrentFontConfig) => {
+        isBold = config.fontWeight === "bold";
         setBoldBthStyle();
     };
+
+    instance.listener.onSelectChange = fontChange;
+    instance.listener.onCursorChange = fontChange;
 
     const setBoldBthStyle = () => {
         if (isBold) {
