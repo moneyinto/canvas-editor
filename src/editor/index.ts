@@ -1,11 +1,14 @@
 import { Cursor } from "./Cursor";
 import { Data } from "./Data";
 import { KEY_BOARD } from "./keyboard";
+import Listener from "./Listener";
 import { Textarea } from "./Textarea";
-import { IFontData, IMouseClick } from "./type";
+import { ICurrentFontConfig, IFontData, IMouseClick } from "./type";
 import { isChinese } from "./util";
 
 export class Editor {
+    public listener: Listener;
+
     private _container: HTMLDivElement;
     private _canvas: HTMLCanvasElement;
     private _ctx: CanvasRenderingContext2D;
@@ -18,6 +21,7 @@ export class Editor {
 
     private _click: IMouseClick | null;
     constructor(container: HTMLDivElement, data: Data) {
+        this.listener = new Listener();
         this._container = container;
 
         this._selectArea = null;
@@ -41,11 +45,15 @@ export class Editor {
         this._renderRichText();
     }
 
-    public getConfig() {
+    get config() {
         return this._data.getConfg();
     }
 
-    public setFontSize(type: "large" | "small") {
+    get isSelectContent() {
+        return this._selectArea && (this._selectArea[0] !== this._selectArea[2] || this._selectArea[1] !== this._selectArea[3]);
+    }
+
+    private _forSelectTexts(callback: (text: IFontData) => void) {
         if (this._selectArea) {
             const renderContent = this._data.getRenderContent();
             const [ startX, startY, endX, endY ] = this._selectArea;
@@ -53,20 +61,35 @@ export class Editor {
                 if (line >= startY && line <= endY) {
                     lineData.texts.forEach((text, index) => {
                         if (startX <= index && index < endX) {
-                            if (type === "large") {
-                                text.fontSize += 2;
-                            } else {
-                                text.fontSize -= 2;
-                            }
-                            const { width, height } = this._getFontSize(text);
-                            text.width = width;
-                            text.height = height;
+                            callback && callback(text);
                         }
                     });
                 }
             });
             this._renderRichText();
         }
+    }
+
+    public setFontSize(type: "large" | "small") {
+        this._forSelectTexts((text) => {
+            if (type === "large") {
+                text.fontSize += 2;
+            } else {
+                text.fontSize -= 2;
+            }
+            const { width, height } = this._getFontSize(text);
+            text.width = width;
+            text.height = height;
+        });
+    }
+
+    public setFontBold(bold: boolean) {
+        this._forSelectTexts((text) => {
+            text.fontWeight = bold ? "bold" : "normal";
+            const { width, height } = this._getFontSize(text);
+            text.width = width;
+            text.height = height;
+        });
     }
 
     private _createCanvas() {
@@ -157,12 +180,52 @@ export class Editor {
 
     private _onMouseUp(e: MouseEvent) {
         e.preventDefault();
-        if (!this._selectArea || (this._selectArea && this._selectArea[0] === this._selectArea[2] && this._selectArea[1] === this._selectArea[3])) {
+        if (this.isSelectContent) {
+            // 选中元素
+            this._dealCurrentSelectStyle();
+        } else {
             // 未选中
             this._focus(e.offsetX, e.offsetY);
             this._selectArea = null;
         }
         this._click = null;
+    }
+
+    private _dealCurrentSelectStyle() {
+        const fontConfig = this.config;
+        const currentFontConfig: ICurrentFontConfig = {
+            bold: true,
+            fontSize: fontConfig.fontSize,
+            fontColor: fontConfig.fontColor,
+            fontFamily: fontConfig.fontFamily,
+            fontStyle: fontConfig.fontStyle
+        };
+
+        // 此处处理获取选中文本公共样式部分
+        this._forSelectTexts((text) => {
+            if (text.fontWeight === "normal") {
+                // 存在一个不是加粗的，当前样式展示就是不加粗的
+                currentFontConfig.bold = false;
+            }
+
+            if (currentFontConfig.fontSize && text.fontSize !== currentFontConfig.fontSize) {
+                delete currentFontConfig.fontSize;
+            }
+
+            if (currentFontConfig.fontColor && text.fontColor !== currentFontConfig.fontColor) {
+                delete currentFontConfig.fontColor;
+            }
+
+            if (currentFontConfig.fontFamily && text.fontFamily !== currentFontConfig.fontFamily) {
+                delete currentFontConfig.fontFamily;
+            }
+
+            if (currentFontConfig.fontStyle && text.fontStyle !== currentFontConfig.fontStyle) {
+                delete currentFontConfig.fontStyle;
+            }
+        });
+
+        this.listener.onSelectChange && this.listener.onSelectChange(currentFontConfig);
     }
 
     private _focus(x: number, y: number) {

@@ -7,7 +7,7 @@ const initData: IFontData[] = [
         width: 8.751998901367188,
         height: 8.720000267028809,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#f60000",
         isChinese: false
@@ -18,7 +18,7 @@ const initData: IFontData[] = [
         width: 8.943984985351562,
         height: 8.720000267028809,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#f60000",
         isChinese: false
@@ -29,7 +29,7 @@ const initData: IFontData[] = [
         width: 8.943984985351562,
         height: 8.496000289916992,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#f60000",
         isChinese: false
@@ -40,7 +40,7 @@ const initData: IFontData[] = [
         width: 8.943984985351562,
         height: 8.720000267028809,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#f60000",
         isChinese: false
@@ -51,7 +51,7 @@ const initData: IFontData[] = [
         width: 8.079986572265625,
         height: 8.720000267028809,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#f60000",
         isChinese: false
@@ -62,7 +62,7 @@ const initData: IFontData[] = [
         width: 16,
         height: 15.26400089263916,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
         isChinese: true
@@ -73,7 +73,7 @@ const initData: IFontData[] = [
         width: 16,
         height: 14.831999778747559,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
         isChinese: true
@@ -84,7 +84,7 @@ const initData: IFontData[] = [
         width: 16,
         height: 15.37600040435791,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
         isChinese: true
@@ -95,7 +95,7 @@ const initData: IFontData[] = [
         width: 16,
         height: 14.592000007629395,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
         isChinese: true
@@ -106,7 +106,7 @@ const initData: IFontData[] = [
         width: 16,
         height: 15.35999870300293,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
         isChinese: true
@@ -117,7 +117,7 @@ const initData: IFontData[] = [
         width: 8.751998901367188,
         height: 8.720000267028809,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#f60000",
         isChinese: false
@@ -128,7 +128,7 @@ const initData: IFontData[] = [
         width: 8.943984985351562,
         height: 8.720000267028809,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#f60000",
         isChinese: false
@@ -139,7 +139,7 @@ const initData: IFontData[] = [
         width: 8.943984985351562,
         height: 8.496000289916992,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#f60000",
         isChinese: false
@@ -150,7 +150,7 @@ const initData: IFontData[] = [
         width: 8.943984985351562,
         height: 8.720000267028809,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#f60000",
         isChinese: false
@@ -161,7 +161,7 @@ const initData: IFontData[] = [
         width: 8.079986572265625,
         height: 8.720000267028809,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#f60000",
         isChinese: false
@@ -172,7 +172,7 @@ const initData: IFontData[] = [
         width: 22,
         height: 20.394001007080078,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
         isChinese: true
@@ -183,7 +183,7 @@ const initData: IFontData[] = [
         width: 22,
         height: 21.141998291015625,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
         isChinese: true
@@ -194,7 +194,7 @@ const initData: IFontData[] = [
         width: 16,
         height: 15.37600040435791,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
         isChinese: true
@@ -205,7 +205,7 @@ const initData: IFontData[] = [
         width: 16,
         height: 14.592000007629395,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
         isChinese: true
@@ -216,7 +216,7 @@ const initData: IFontData[] = [
         width: 16,
         height: 15.35999870300293,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
         isChinese: true
@@ -227,7 +227,7 @@ const initData: IFontData[] = [
         width: 8.751998901367188,
         height: 8.720000267028809,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#f60000",
         isChinese: false
@@ -238,7 +238,7 @@ const initData: IFontData[] = [
         width: 8.943984985351562,
         height: 8.720000267028809,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#f60000",
         isChinese: false
@@ -249,7 +249,7 @@ const initData: IFontData[] = [
         width: 8.943984985351562,
         height: 8.496000289916992,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#f60000",
         isChinese: false
@@ -260,7 +260,7 @@ const initData: IFontData[] = [
         width: 8.943984985351562,
         height: 8.720000267028809,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#f60000",
         isChinese: false
@@ -271,7 +271,7 @@ const initData: IFontData[] = [
         width: 8.079986572265625,
         height: 8.720000267028809,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#f60000",
         isChinese: false
@@ -282,7 +282,7 @@ const initData: IFontData[] = [
         width: 16,
         height: 15.26400089263916,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
         isChinese: true
@@ -293,7 +293,7 @@ const initData: IFontData[] = [
         width: 16,
         height: 14.831999778747559,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
         isChinese: true
@@ -304,7 +304,7 @@ const initData: IFontData[] = [
         width: 16,
         height: 15.37600040435791,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
         isChinese: true
@@ -315,7 +315,7 @@ const initData: IFontData[] = [
         width: 16,
         height: 14.592000007629395,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
         isChinese: true
@@ -326,7 +326,7 @@ const initData: IFontData[] = [
         width: 16,
         height: 15.35999870300293,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
         isChinese: true
@@ -337,7 +337,7 @@ const initData: IFontData[] = [
         width: 0,
         height: 0,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
         isChinese: false
@@ -348,7 +348,7 @@ const initData: IFontData[] = [
         width: 8.751998901367188,
         height: 8.720000267028809,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#f60000",
         isChinese: false
@@ -359,7 +359,7 @@ const initData: IFontData[] = [
         width: 8.943984985351562,
         height: 8.720000267028809,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#f60000",
         isChinese: false
@@ -370,7 +370,7 @@ const initData: IFontData[] = [
         width: 8.943984985351562,
         height: 8.496000289916992,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#f60000",
         isChinese: false
@@ -381,7 +381,7 @@ const initData: IFontData[] = [
         width: 8.943984985351562,
         height: 8.720000267028809,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#f60000",
         isChinese: false
@@ -392,7 +392,7 @@ const initData: IFontData[] = [
         width: 8.079986572265625,
         height: 8.720000267028809,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#f60000",
         isChinese: false
@@ -403,7 +403,7 @@ const initData: IFontData[] = [
         width: 16,
         height: 15.26400089263916,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
         isChinese: true
@@ -414,7 +414,7 @@ const initData: IFontData[] = [
         width: 16,
         height: 14.831999778747559,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
         isChinese: true
@@ -425,7 +425,7 @@ const initData: IFontData[] = [
         width: 16,
         height: 15.37600040435791,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
         isChinese: true
@@ -436,7 +436,7 @@ const initData: IFontData[] = [
         width: 16,
         height: 14.592000007629395,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
         isChinese: true
@@ -447,7 +447,7 @@ const initData: IFontData[] = [
         width: 16,
         height: 15.35999870300293,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
         isChinese: true
@@ -458,7 +458,7 @@ const initData: IFontData[] = [
         width: 0,
         height: 0,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
         isChinese: false
@@ -473,7 +473,7 @@ export class Data {
         this._content = initData;
         this._config = {
             fontSize: 16,
-            fontWeight: "400",
+            fontWeight: "normal",
             fontFamily: "serif",
             fontColor: "#444",
             fontStyle: "normal",
@@ -527,7 +527,6 @@ export class Data {
         // if (lineData.texts.length > 0) renderContent.push(lineData);
 
         this._renderContent = renderContent;
-        console.log(renderContent);
         return renderContent;
     }
 

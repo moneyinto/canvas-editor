@@ -9,6 +9,23 @@ window.onload = () => {
 
     console.log("实例", instance);
 
+    let isBold = false;
+    const boldBtn = document.querySelector<HTMLDivElement>(".tool-btn-bold");
+
+    instance.listener.onSelectChange = (config) => {
+        isBold = config.bold;
+        console.log(config, boldBtn);
+        setBoldBthStyle();
+    };
+
+    const setBoldBthStyle = () => {
+        if (isBold) {
+            boldBtn?.classList.add("active");
+        } else {
+            boldBtn?.classList.remove("active");
+        }
+    }
+
     window.setFontColor = (e) => {
         console.log((e.target as HTMLInputElement).value);
     };
@@ -22,7 +39,11 @@ window.onload = () => {
     };
     
     window.setFontBold = () => {
-        console.log("加粗");
+        if (instance.isSelectContent) {
+            isBold = !isBold;
+            instance.setFontBold(isBold);
+            setBoldBthStyle();
+        }
     };
     
     window.setFontItalic = () => {

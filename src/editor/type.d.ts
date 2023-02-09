@@ -33,3 +33,13 @@ export interface ILineData {
     height: number;
     texts: IFontData[];
 }
+
+export interface ICurrentFontConfig {
+    bold: boolean;
+    fontSize?: number;
+    fontFamily?: string;
+    fontColor?: string;
+    fontStyle?: string;
+}
+
+export type IOnSelectChange = (config: ICurrentFontConfig) => void;
