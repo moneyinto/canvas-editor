@@ -238,7 +238,8 @@ export class Editor {
         // 获取前一个字的样式，设置config
         const currentDataPosition = this._cursor.getDataPosition();
         const content = this._data.getContent();
-        const text = content[currentDataPosition];
+        const text = currentDataPosition === -1 ? this._data.getConfg() : content[currentDataPosition];
+
         const config = {
             fontSize: text.fontSize,
             fontColor: text.fontColor,

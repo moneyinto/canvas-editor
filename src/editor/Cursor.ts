@@ -188,7 +188,7 @@ export class Cursor {
     }
 
     setDataPosition(position: number) {
-        if (position < -1 || position >= this._data.getLength() - 1) return;
+        if (position < -1 || position > this._data.getLength() - 1) return;
         this._dataPosition = position;
 
         this.setRenderDataPosition();
