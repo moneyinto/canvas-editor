@@ -150,6 +150,7 @@ export class Editor {
         this._canvas.addEventListener("mousedown", this._onMouseDown.bind(this));
         this._canvas.addEventListener("mousemove", this._onMouseMove.bind(this));
         this._canvas.addEventListener("mouseup", this._onMouseUp.bind(this));
+        this._canvas.addEventListener("mouseout", this._onMouseUp.bind(this));
 
         this._textarea.addEventListener("change", (input) => {
             console.log("==== change", input);
