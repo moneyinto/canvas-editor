@@ -4,5 +4,6 @@ export enum KEY_BOARD {
     LEFT = "ArrowLeft",
     TOP = "ArrowUp",
     RIGHT = "ArrowRight",
-    BOTTOM = "ArrowDown"
+    BOTTOM = "ArrowDown",
+    S = "s"
 }

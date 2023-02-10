@@ -9,9 +9,10 @@ const initData: IFontData[] = [
         height: 8.720000267028809,
         fontStyle: "normal",
         fontWeight: "normal",
-        fontFamily: "serif",
+        fontFamily: "楷体",
         fontColor: "#f60000",
-        isChinese: false
+        isChinese: false,
+        underline: true
     },
     {
         value: "a",
@@ -20,7 +21,7 @@ const initData: IFontData[] = [
         height: 8.720000267028809,
         fontStyle: "normal",
         fontWeight: "normal",
-        fontFamily: "serif",
+        fontFamily: "楷体",
         fontColor: "#f60000",
         isChinese: false,
         underline: true
@@ -32,7 +33,223 @@ const initData: IFontData[] = [
         height: 8.496000289916992,
         fontStyle: "normal",
         fontWeight: "normal",
-        fontFamily: "serif",
+        fontFamily: "楷体",
+        fontColor: "#f60000",
+        isChinese: false,
+        underline: true
+    },
+    {
+        value: "a",
+        fontSize: 56,
+        width: 31.303985595703125,
+        height: 30.520000457763672,
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontFamily: "楷体",
+        fontColor: "#f60000",
+        isChinese: false,
+        underline: true
+    },
+    {
+        value: "s",
+        fontSize: 56,
+        width: 28.279998779296875,
+        height: 30.520000457763672,
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontFamily: "楷体",
+        fontColor: "#f60000",
+        isChinese: false,
+        underline: true
+    },
+    {
+        value: "富",
+        fontSize: 56,
+        width: 56,
+        height: 51.85600280761719,
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontFamily: "楷体",
+        fontColor: "#444",
+        isChinese: true,
+        underline: true
+    },
+    {
+        value: "文",
+        fontSize: 56,
+        width: 56,
+        height: 51.96800231933594,
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontFamily: "楷体",
+        fontColor: "#444",
+        isChinese: true,
+        underline: true
+    },
+    {
+        value: "本",
+        fontSize: 56,
+        width: 56,
+        height: 51.183998107910156,
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontFamily: "楷体",
+        fontColor: "#444",
+        isChinese: true,
+        underline: true
+    },
+    {
+        value: "渲",
+        fontSize: 56,
+        width: 56,
+        height: 51.407997131347656,
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontFamily: "楷体",
+        fontColor: "#444",
+        isChinese: true,
+        underline: true
+    },
+    {
+        value: "染",
+        fontSize: 56,
+        width: 56,
+        height: 51.183998107910156,
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontFamily: "楷体",
+        fontColor: "#444",
+        isChinese: true,
+        underline: true
+    },
+    {
+        value: "c",
+        fontSize: 56,
+        width: 30.631988525390625,
+        height: 30.520000457763672,
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontFamily: "楷体",
+        fontColor: "#f60000",
+        isChinese: false,
+        underline: true
+    },
+    {
+        value: "a",
+        fontSize: 56,
+        width: 31.303985595703125,
+        height: 30.520000457763672,
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontFamily: "楷体",
+        fontColor: "#f60000",
+        isChinese: false,
+        underline: true
+    },
+    {
+        value: "n",
+        fontSize: 56,
+        width: 31.303985595703125,
+        height: 29.736000061035156,
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontFamily: "楷体",
+        fontColor: "#f60000",
+        isChinese: false,
+        underline: true
+    },
+    {
+        value: "a",
+        fontSize: 56,
+        width: 31.303985595703125,
+        height: 30.520000457763672,
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontFamily: "楷体",
+        fontColor: "#f60000",
+        isChinese: false,
+        underline: true
+    },
+    {
+        value: "s",
+        fontSize: 56,
+        width: 28.279998779296875,
+        height: 30.520000457763672,
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontFamily: "楷体",
+        fontColor: "#f60000",
+        isChinese: false,
+        underline: true
+    },
+    {
+        value: "富",
+        fontSize: 62,
+        width: 62,
+        height: 57.41200256347656,
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontFamily: "楷体",
+        fontColor: "#444",
+        isChinese: true,
+        underline: true
+    },
+    {
+        value: "文",
+        fontSize: 62,
+        width: 62,
+        height: 57.53600311279297,
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontFamily: "楷体",
+        fontColor: "#444",
+        isChinese: true,
+        underline: true
+    },
+    {
+        value: "本",
+        fontSize: 16,
+        width: 16,
+        height: 15.37600040435791,
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontFamily: "楷体",
+        fontColor: "#444",
+        isChinese: true,
+        underline: true
+    },
+    {
+        value: "渲",
+        fontSize: 16,
+        width: 16,
+        height: 14.592000007629395,
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontFamily: "楷体",
+        fontColor: "#444",
+        isChinese: true,
+        underline: true
+    },
+    {
+        value: "染",
+        fontSize: 16,
+        width: 16,
+        height: 15.35999870300293,
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontFamily: "楷体",
+        fontColor: "#444",
+        isChinese: true,
+        underline: true
+    },
+    {
+        value: "c",
+        fontSize: 16,
+        width: 8.751998901367188,
+        height: 8.720000267028809,
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontFamily: "楷体",
         fontColor: "#f60000",
         isChinese: false,
         underline: true
@@ -44,7 +261,31 @@ const initData: IFontData[] = [
         height: 8.720000267028809,
         fontStyle: "normal",
         fontWeight: "normal",
-        fontFamily: "serif",
+        fontFamily: "楷体",
+        fontColor: "#f60000",
+        isChinese: false,
+        underline: true
+    },
+    {
+        value: "n",
+        fontSize: 16,
+        width: 8.943984985351562,
+        height: 8.496000289916992,
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontFamily: "楷体",
+        fontColor: "#f60000",
+        isChinese: false,
+        underline: true
+    },
+    {
+        value: "a",
+        fontSize: 16,
+        width: 8.943984985351562,
+        height: 8.720000267028809,
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontFamily: "楷体",
         fontColor: "#f60000",
         isChinese: false,
         underline: true
@@ -56,9 +297,10 @@ const initData: IFontData[] = [
         height: 8.720000267028809,
         fontStyle: "normal",
         fontWeight: "normal",
-        fontFamily: "serif",
+        fontFamily: "楷体",
         fontColor: "#f60000",
-        isChinese: false
+        isChinese: false,
+        underline: true
     },
     {
         value: "富",
@@ -67,7 +309,7 @@ const initData: IFontData[] = [
         height: 15.26400089263916,
         fontStyle: "normal",
         fontWeight: "normal",
-        fontFamily: "serif",
+        fontFamily: "楷体",
         fontColor: "#444",
         isChinese: true,
         underline: true
@@ -79,7 +321,7 @@ const initData: IFontData[] = [
         height: 14.831999778747559,
         fontStyle: "normal",
         fontWeight: "normal",
-        fontFamily: "serif",
+        fontFamily: "楷体",
         fontColor: "#444",
         isChinese: true,
         underline: true
@@ -91,7 +333,7 @@ const initData: IFontData[] = [
         height: 15.37600040435791,
         fontStyle: "normal",
         fontWeight: "normal",
-        fontFamily: "serif",
+        fontFamily: "楷体",
         fontColor: "#444",
         isChinese: true,
         underline: true
@@ -103,9 +345,10 @@ const initData: IFontData[] = [
         height: 14.592000007629395,
         fontStyle: "normal",
         fontWeight: "normal",
-        fontFamily: "serif",
+        fontFamily: "楷体",
         fontColor: "#444",
-        isChinese: true
+        isChinese: true,
+        underline: true
     },
     {
         value: "染",
@@ -114,229 +357,10 @@ const initData: IFontData[] = [
         height: 15.35999870300293,
         fontStyle: "normal",
         fontWeight: "normal",
-        fontFamily: "serif",
+        fontFamily: "楷体",
         fontColor: "#444",
-        isChinese: true
-    },
-    {
-        value: "c",
-        fontSize: 16,
-        width: 8.751998901367188,
-        height: 8.720000267028809,
-        fontStyle: "normal",
-        fontWeight: "normal",
-        fontFamily: "serif",
-        fontColor: "#f60000",
-        isChinese: false
-    },
-    {
-        value: "a",
-        fontSize: 16,
-        width: 8.943984985351562,
-        height: 8.720000267028809,
-        fontStyle: "normal",
-        fontWeight: "normal",
-        fontFamily: "serif",
-        fontColor: "#f60000",
-        isChinese: false
-    },
-    {
-        value: "n",
-        fontSize: 16,
-        width: 8.943984985351562,
-        height: 8.496000289916992,
-        fontStyle: "normal",
-        fontWeight: "normal",
-        fontFamily: "serif",
-        fontColor: "#f60000",
-        isChinese: false
-    },
-    {
-        value: "a",
-        fontSize: 16,
-        width: 8.943984985351562,
-        height: 8.720000267028809,
-        fontStyle: "normal",
-        fontWeight: "normal",
-        fontFamily: "serif",
-        fontColor: "#f60000",
-        isChinese: false
-    },
-    {
-        value: "s",
-        fontSize: 16,
-        width: 8.079986572265625,
-        height: 8.720000267028809,
-        fontStyle: "normal",
-        fontWeight: "normal",
-        fontFamily: "serif",
-        fontColor: "#f60000",
-        isChinese: false
-    },
-    {
-        value: "富",
-        fontSize: 22,
-        width: 22,
-        height: 20.394001007080078,
-        fontStyle: "normal",
-        fontWeight: "normal",
-        fontFamily: "serif",
-        fontColor: "#444",
-        isChinese: true
-    },
-    {
-        value: "文",
-        fontSize: 22,
-        width: 22,
-        height: 21.141998291015625,
-        fontStyle: "normal",
-        fontWeight: "normal",
-        fontFamily: "serif",
-        fontColor: "#444",
-        isChinese: true
-    },
-    {
-        value: "本",
-        fontSize: 16,
-        width: 16,
-        height: 15.37600040435791,
-        fontStyle: "normal",
-        fontWeight: "normal",
-        fontFamily: "serif",
-        fontColor: "#444",
-        isChinese: true
-    },
-    {
-        value: "渲",
-        fontSize: 16,
-        width: 16,
-        height: 14.592000007629395,
-        fontStyle: "normal",
-        fontWeight: "normal",
-        fontFamily: "serif",
-        fontColor: "#444",
-        isChinese: true
-    },
-    {
-        value: "染",
-        fontSize: 16,
-        width: 16,
-        height: 15.35999870300293,
-        fontStyle: "normal",
-        fontWeight: "normal",
-        fontFamily: "serif",
-        fontColor: "#444",
-        isChinese: true
-    },
-    {
-        value: "c",
-        fontSize: 16,
-        width: 8.751998901367188,
-        height: 8.720000267028809,
-        fontStyle: "normal",
-        fontWeight: "normal",
-        fontFamily: "serif",
-        fontColor: "#f60000",
-        isChinese: false
-    },
-    {
-        value: "a",
-        fontSize: 16,
-        width: 8.943984985351562,
-        height: 8.720000267028809,
-        fontStyle: "normal",
-        fontWeight: "normal",
-        fontFamily: "serif",
-        fontColor: "#f60000",
-        isChinese: false
-    },
-    {
-        value: "n",
-        fontSize: 16,
-        width: 8.943984985351562,
-        height: 8.496000289916992,
-        fontStyle: "normal",
-        fontWeight: "normal",
-        fontFamily: "serif",
-        fontColor: "#f60000",
-        isChinese: false
-    },
-    {
-        value: "a",
-        fontSize: 16,
-        width: 8.943984985351562,
-        height: 8.720000267028809,
-        fontStyle: "normal",
-        fontWeight: "normal",
-        fontFamily: "serif",
-        fontColor: "#f60000",
-        isChinese: false
-    },
-    {
-        value: "s",
-        fontSize: 16,
-        width: 8.079986572265625,
-        height: 8.720000267028809,
-        fontStyle: "normal",
-        fontWeight: "normal",
-        fontFamily: "serif",
-        fontColor: "#f60000",
-        isChinese: false
-    },
-    {
-        value: "富",
-        fontSize: 16,
-        width: 16,
-        height: 15.26400089263916,
-        fontStyle: "normal",
-        fontWeight: "normal",
-        fontFamily: "serif",
-        fontColor: "#444",
-        isChinese: true
-    },
-    {
-        value: "文",
-        fontSize: 16,
-        width: 16,
-        height: 14.831999778747559,
-        fontStyle: "normal",
-        fontWeight: "normal",
-        fontFamily: "serif",
-        fontColor: "#444",
-        isChinese: true
-    },
-    {
-        value: "本",
-        fontSize: 16,
-        width: 16,
-        height: 15.37600040435791,
-        fontStyle: "normal",
-        fontWeight: "normal",
-        fontFamily: "serif",
-        fontColor: "#444",
-        isChinese: true
-    },
-    {
-        value: "渲",
-        fontSize: 16,
-        width: 16,
-        height: 14.592000007629395,
-        fontStyle: "normal",
-        fontWeight: "normal",
-        fontFamily: "serif",
-        fontColor: "#444",
-        isChinese: true
-    },
-    {
-        value: "染",
-        fontSize: 16,
-        width: 16,
-        height: 15.35999870300293,
-        fontStyle: "normal",
-        fontWeight: "normal",
-        fontFamily: "serif",
-        fontColor: "#444",
-        isChinese: true
+        isChinese: true,
+        underline: true
     },
     {
         value: "\n",
@@ -345,9 +369,10 @@ const initData: IFontData[] = [
         height: 0,
         fontStyle: "normal",
         fontWeight: "normal",
-        fontFamily: "serif",
+        fontFamily: "楷体",
         fontColor: "#444",
-        isChinese: false
+        isChinese: false,
+        underline: true
     },
     {
         value: "c",
@@ -356,7 +381,7 @@ const initData: IFontData[] = [
         height: 8.720000267028809,
         fontStyle: "normal",
         fontWeight: "normal",
-        fontFamily: "serif",
+        fontFamily: "楷体",
         fontColor: "#f60000",
         isChinese: false
     },
@@ -367,7 +392,7 @@ const initData: IFontData[] = [
         height: 8.720000267028809,
         fontStyle: "normal",
         fontWeight: "normal",
-        fontFamily: "serif",
+        fontFamily: "楷体",
         fontColor: "#f60000",
         isChinese: false
     },
@@ -378,7 +403,7 @@ const initData: IFontData[] = [
         height: 8.496000289916992,
         fontStyle: "normal",
         fontWeight: "normal",
-        fontFamily: "serif",
+        fontFamily: "楷体",
         fontColor: "#f60000",
         isChinese: false
     },
@@ -389,7 +414,7 @@ const initData: IFontData[] = [
         height: 8.720000267028809,
         fontStyle: "normal",
         fontWeight: "normal",
-        fontFamily: "serif",
+        fontFamily: "楷体",
         fontColor: "#f60000",
         isChinese: false
     },
@@ -400,7 +425,7 @@ const initData: IFontData[] = [
         height: 8.720000267028809,
         fontStyle: "normal",
         fontWeight: "normal",
-        fontFamily: "serif",
+        fontFamily: "楷体",
         fontColor: "#f60000",
         isChinese: false
     },
@@ -411,7 +436,7 @@ const initData: IFontData[] = [
         height: 15.26400089263916,
         fontStyle: "normal",
         fontWeight: "normal",
-        fontFamily: "serif",
+        fontFamily: "楷体",
         fontColor: "#444",
         isChinese: true
     },
@@ -422,7 +447,7 @@ const initData: IFontData[] = [
         height: 14.831999778747559,
         fontStyle: "normal",
         fontWeight: "normal",
-        fontFamily: "serif",
+        fontFamily: "楷体",
         fontColor: "#444",
         isChinese: true
     },
@@ -433,7 +458,7 @@ const initData: IFontData[] = [
         height: 15.37600040435791,
         fontStyle: "normal",
         fontWeight: "normal",
-        fontFamily: "serif",
+        fontFamily: "楷体",
         fontColor: "#444",
         isChinese: true
     },
@@ -444,7 +469,7 @@ const initData: IFontData[] = [
         height: 14.592000007629395,
         fontStyle: "normal",
         fontWeight: "normal",
-        fontFamily: "serif",
+        fontFamily: "楷体",
         fontColor: "#444",
         isChinese: true,
         strikout: true
@@ -456,7 +481,7 @@ const initData: IFontData[] = [
         height: 15.35999870300293,
         fontStyle: "normal",
         fontWeight: "normal",
-        fontFamily: "serif",
+        fontFamily: "楷体",
         fontColor: "#444",
         isChinese: true,
         strikout: true
@@ -468,7 +493,7 @@ const initData: IFontData[] = [
         height: 0,
         fontStyle: "normal",
         fontWeight: "normal",
-        fontFamily: "serif",
+        fontFamily: "楷体",
         fontColor: "#444",
         isChinese: false
     }
@@ -477,11 +502,12 @@ const initData: IFontData[] = [
 const baseConfig = {
     fontSize: 16,
     fontWeight: "normal",
-    fontFamily: "serif",
+    fontFamily: "楷体",
     fontColor: "#444",
     fontStyle: "normal",
     wordSpace: 1,
-    lineHeight: 1.2,
+    lineHeight: 2,
+    lineHeightLeave: 4,
     pageMargin: 10,
     pageWidth: 200
 };
@@ -505,7 +531,7 @@ export class Data {
         this._config = {
             ...this._config,
             ...props
-        }
+        };
     }
 
     getContent() {

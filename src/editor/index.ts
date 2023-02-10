@@ -322,6 +322,7 @@ export class Editor {
     }
 
     private _onKeydown(e: KeyboardEvent) {
+        e.preventDefault();
         switch(e.key) {
             case KEY_BOARD.LEFT: {
                 const position = this._cursor.getDataPosition();
@@ -427,6 +428,12 @@ export class Editor {
                 this._deleteText();
                 break;
             }
+            case KEY_BOARD.S: {
+                if (e.ctrlKey || e.metaKey) {
+                    console.log(JSON.stringify(this._data.getContent()));
+                }
+                break;
+            }
         }
     }
 
@@ -511,15 +518,16 @@ export class Editor {
                 if (rangeRecord) this._renderRange(rangeRecord);
             }
 
+            const lineHeight = lineData.height * config.lineHeight;
             lineData.texts.forEach(text => {
                 // 排除换行情况
                 if (text.value !== "\n") {
                     if (text.underline) {
-                        this._drawUnderLine(text, x, y, lineData.height * config.lineHeight);
+                        this._drawUnderLine(text, x, y, lineData.height);
                     }
 
                     if (text.strikout) {
-                        this._drawStrikout(text, x, y, lineData.height * config.lineHeight);
+                        this._drawStrikout(text, x, y, lineData.height);
                     }
 
                     this._fillText(text, x, y, lineData.height);
@@ -527,45 +535,49 @@ export class Editor {
                 }
             });
             x = config.pageMargin;
-            y = y + lineData.height * config.lineHeight;
+            y = y + lineHeight;
         });
     }
 
-    private _drawStrikout(text: IFontData, x: number, y: number, maxHeight: number) {
+    private _drawStrikout(text: IFontData, x: number, y: number, fontHeight: number) {
         const config = this._data.getConfg();
-        // const offsetY = (maxHeight * config.lineHeight - text.fontSize) / 2;
-        const underLineY = y + maxHeight / 2;
+        const offsetY = fontHeight + fontHeight * (config.lineHeight - 1) / 2;
+        const compensateY = (fontHeight - text.fontSize) * 0.1; // 英文，大小字体存在时，存在错位感，对小字号进行一些值的补偿
+        const underLineY = y + offsetY + 2 - text.fontSize / 2 - compensateY; // 补两个像素
         this._ctx.save();
         this._ctx.beginPath();
-        this._ctx.lineWidth = 1;
+        this._ctx.lineWidth = text.fontSize / 10;
         this._ctx.strokeStyle = text.fontColor;
-        this._ctx.moveTo(x - config.wordSpace / 2, underLineY);
-        this._ctx.lineTo(x + text.width + config.wordSpace / 2, underLineY);
+        const compensate = Math.sign(this._ctx.lineWidth - 2) * 0.2; // 字体大和小，中划线有明显的断开或交叉，进行0.2的补偿错位
+        this._ctx.moveTo(x - config.wordSpace / 2 - compensate, underLineY);
+        this._ctx.lineTo(x + text.width + config.wordSpace / 2 + compensate, underLineY);
         this._ctx.stroke();
         this._ctx.restore();
     }
 
-    private _drawUnderLine(text: IFontData, x: number, y: number, maxHeight: number) {
+    private _drawUnderLine(text: IFontData, x: number, y: number, fontHeight: number) {
         const config = this._data.getConfg();
-        // const offsetY = (maxHeight * config.lineHeight - text.fontSize) / 2;
-        const underLineY = y + maxHeight - 1;
+        const offsetY = fontHeight + fontHeight * (config.lineHeight - 1) / 2;
+        const underLineY = y + offsetY + 2; // 补两个像素
         this._ctx.save();
         this._ctx.beginPath();
-        this._ctx.lineWidth = 1;
+        this._ctx.lineWidth = Math.ceil(fontHeight / 20);
         this._ctx.strokeStyle = text.fontColor;
-        this._ctx.moveTo(x - config.wordSpace / 2, underLineY);
-        this._ctx.lineTo(x + text.width + config.wordSpace / 2, underLineY);
+        const compensate = Math.sign(this._ctx.lineWidth - 2) * 0.2; // 字体大和小，下划线有明显的断开或交叉，进行0.2的补偿错位
+        this._ctx.moveTo(x - config.wordSpace / 2 - compensate, underLineY);
+        this._ctx.lineTo(x + text.width + config.wordSpace / 2 + compensate, underLineY);
         this._ctx.stroke();
         this._ctx.restore();
     }
 
-    private _fillText(text: IFontData, x: number, y: number, maxHeight: number) {
+    private _fillText(text: IFontData, x: number, y: number, fontHeight: number) {
         this._ctx.save();
-        this._ctx.textBaseline = "top";
+        this._ctx.textBaseline = "bottom";
         const config = this._data.getConfg();
         this._ctx.fillStyle = text.fontColor;
         this._ctx.font = `${text.fontStyle} ${text.fontWeight} ${text.fontSize}px ${text.fontFamily}`;
-        const offsetY = (maxHeight * config.lineHeight - text.fontSize) / 2;
+        const compensate = (fontHeight - text.fontSize) * 0.1; // 英文，大小字体存在时，存在错位感，对小字号进行一些值的补偿
+        const offsetY = fontHeight + fontHeight * (config.lineHeight - 1) / 2 - compensate;
         this._ctx.fillText(text.value, x, y + offsetY, text.fontSize);
         this._ctx.restore();
     }
