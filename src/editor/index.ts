@@ -134,15 +134,15 @@ export class Editor {
         return { canvas, ctx };
     }
 
-    private _resize() {
-        const width = this._container.clientWidth;
-        const height = this._container.clientHeight;
-        this._canvas.width = width;
-        this._canvas.height = height;
-        this._renderRichText();
-    }
+    // private _resize() {
+    //     const width = this._container.clientWidth;
+    //     const height = this._container.clientHeight;
+    //     this._canvas.width = width;
+    //     this._canvas.height = height;
+    //     this._renderRichText();
+    // }
 
-    private _unbindEvents() {}
+    // private _unbindEvents() {}
 
     private _bindEvents() {
         // window.addEventListener("resize", this._resize.bind(this));
@@ -161,7 +161,7 @@ export class Editor {
         });
 
         this._textarea.addEventListener("input", e => this._onInput(e as InputEvent));
-        this._textarea.addEventListener("compositionstart", e => this._onCompStart(e as CompositionEvent));
+        // this._textarea.addEventListener("compositionstart", e => this._onCompStart(e as CompositionEvent));
         this._textarea.addEventListener("compositionend", e => this._onCompEnd(e as CompositionEvent));
         this._textarea.addEventListener("keydown", e => this._onKeydown(e as KeyboardEvent));
     }
@@ -296,11 +296,11 @@ export class Editor {
         }, 100);
     }
 
-    private _blur(e: Event) {
-        e.preventDefault();
-        this._textarea.blur();
-        this._cursor.hideCursor();
-    }
+    // private _blur(e: Event) {
+    //     e.preventDefault();
+    //     this._textarea.blur();
+    //     this._cursor.hideCursor();
+    // }
 
     private _onInput(e: InputEvent) {
         if (e.inputType === "insertText" && e.data) {
@@ -309,9 +309,9 @@ export class Editor {
         }
     }
 
-    private _onCompStart(e: CompositionEvent) {
-        // console.log("=== 开始输入中文", e);
-    }
+    // private _onCompStart(e: CompositionEvent) {
+    //     console.log("=== 开始输入中文", e);
+    // }
 
     private _onCompEnd(e: CompositionEvent) {
         if (e.data) {
