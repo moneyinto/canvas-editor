@@ -12,14 +12,18 @@ window.onload = () => {
 
     let isBold = false;
     let isItalic = false;
+    let isUnderLine = false;
     const boldBtn = document.querySelector<HTMLDivElement>(".tool-btn-bold");
     const italicBtn = document.querySelector<HTMLDivElement>(".tool-btn-italic");
+    const underLineBtn = document.querySelector<HTMLDivElement>(".tool-btn-underline");
 
     const fontChange = (config: ICurrentFontConfig) => {
         isBold = config.fontWeight === "bold";
         isItalic = config.fontStyle === "italic";
+        isUnderLine = !!config.underline;
         setBoldBthStyle();
         setItalicBtnStyle();
+        setUnderLineBtnStyle();
     };
 
     instance.listener.onSelectChange = fontChange;
@@ -38,6 +42,14 @@ window.onload = () => {
             italicBtn?.classList.add("active");
         } else {
             italicBtn?.classList.remove("active");
+        }
+    }
+
+    const setUnderLineBtnStyle = () => {
+        if (isUnderLine) {
+            underLineBtn?.classList.add("active");
+        } else {
+            underLineBtn?.classList.remove("active");
         }
     }
 
@@ -70,7 +82,11 @@ window.onload = () => {
     };
     
     window.setFontUnderLine = () => {
-        console.log("下划线");
+        if (instance.isSelectContent) {
+            isUnderLine = !isUnderLine;
+            instance.setFontUnderLine(isUnderLine);
+            setUnderLineBtnStyle();
+        }
     };
     
     window.setFontStrikeout = () => {

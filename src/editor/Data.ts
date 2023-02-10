@@ -22,7 +22,8 @@ const initData: IFontData[] = [
         fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#f60000",
-        isChinese: false
+        isChinese: false,
+        underline: true
     },
     {
         value: "n",
@@ -33,7 +34,8 @@ const initData: IFontData[] = [
         fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#f60000",
-        isChinese: false
+        isChinese: false,
+        underline: true
     },
     {
         value: "a",
@@ -44,7 +46,8 @@ const initData: IFontData[] = [
         fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#f60000",
-        isChinese: false
+        isChinese: false,
+        underline: true
     },
     {
         value: "s",
@@ -66,7 +69,8 @@ const initData: IFontData[] = [
         fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
-        isChinese: true
+        isChinese: true,
+        underline: true
     },
     {
         value: "文",
@@ -77,7 +81,8 @@ const initData: IFontData[] = [
         fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
-        isChinese: true
+        isChinese: true,
+        underline: true
     },
     {
         value: "本",
@@ -88,7 +93,8 @@ const initData: IFontData[] = [
         fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
-        isChinese: true
+        isChinese: true,
+        underline: true
     },
     {
         value: "渲",

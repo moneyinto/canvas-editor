@@ -101,6 +101,12 @@ export class Editor {
         });
     }
 
+    public setFontUnderLine(isUnderLine: boolean) {
+        this._forSelectTexts((text) => {
+            text.underline = isUnderLine;
+        });
+    }
+
     private _createCanvas() {
         const width = this._container.clientWidth;
         const height = this._container.clientHeight;
@@ -208,7 +214,8 @@ export class Editor {
             fontSize: fontConfig.fontSize,
             fontColor: fontConfig.fontColor,
             fontFamily: fontConfig.fontFamily,
-            fontStyle: "italic"
+            fontStyle: "italic",
+            underline: true
         };
 
         // 此处处理获取选中文本公共样式部分
@@ -233,6 +240,10 @@ export class Editor {
             if (currentFontConfig.fontStyle && text.fontStyle !== currentFontConfig.fontStyle) {
                 delete currentFontConfig.fontStyle;
             }
+
+            if (currentFontConfig.underline && !text.underline) {
+                delete currentFontConfig.underline;
+            }
         });
 
         this.listener.onSelectChange && this.listener.onSelectChange(currentFontConfig);
@@ -254,7 +265,8 @@ export class Editor {
             fontColor: text.fontColor,
             fontFamily: text.fontFamily,
             fontStyle: text.fontStyle,
-            fontWeight: text.fontWeight
+            fontWeight: text.fontWeight,
+            underline: !!text.underline
         };
         this._data.updateConfig(config);
 
@@ -484,6 +496,10 @@ export class Editor {
             lineData.texts.forEach(text => {
                 // 排除换行情况
                 if (text.value !== "\n") {
+                    if (text.underline) {
+                        this._drawUnderLine(text, x, y, lineData.height);
+                    }
+
                     this._fillText(text, x, y, lineData.height);
                     x = x + text.width + config.wordSpace;
                 }
@@ -493,11 +509,28 @@ export class Editor {
         });
     }
 
+    private _drawUnderLine(text: IFontData, x: number, y: number, maxHeight: number) {
+        const config = this._data.getConfg();
+        // const offsetY = (maxHeight * config.lineHeight - text.fontSize) / 2;
+        const underLineY = y + maxHeight + 4;
+        this._ctx.save();
+        this._ctx.beginPath();
+        this._ctx.lineWidth = 1;
+        this._ctx.strokeStyle = text.fontColor;
+        this._ctx.moveTo(x - config.wordSpace / 2, underLineY);
+        this._ctx.lineTo(x + text.width + config.wordSpace / 2, underLineY);
+        this._ctx.stroke();
+        this._ctx.restore();
+    }
+
     private _fillText(text: IFontData, x: number, y: number, maxHeight: number) {
+        this._ctx.save();
         this._ctx.textBaseline = "top";
         const config = this._data.getConfg();
+        this._ctx.fillStyle = text.fontColor;
         this._ctx.font = `${text.fontStyle} ${text.fontWeight} ${text.fontSize}px ${text.fontFamily}`;
         const offsetY = (maxHeight * config.lineHeight - text.fontSize) / 2;
         this._ctx.fillText(text.value, x, y + offsetY, text.fontSize);
+        this._ctx.restore();
     }
 }
