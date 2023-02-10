@@ -66,7 +66,7 @@ window.onload = () => {
     }
 
     window.setFontColor = (e) => {
-        console.log((e.target as HTMLInputElement).value);
+        instance.setFontColor((e.target as HTMLInputElement).value);
     };
     
     window.setAddFontSize = () => {

@@ -70,6 +70,12 @@ export class Editor {
         }
     }
 
+    public setFontColor(color: string) {
+        this._forSelectTexts((text) => {
+            text.fontColor = color;
+        });
+    }
+
     public setFontSize(type: "large" | "small") {
         this._forSelectTexts((text) => {
             if (type === "large") {
