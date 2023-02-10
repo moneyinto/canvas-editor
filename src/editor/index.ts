@@ -107,6 +107,12 @@ export class Editor {
         });
     }
 
+    public setFontStrikeout(isStrikout: boolean) {
+        this._forSelectTexts((text) => {
+            text.strikout = isStrikout;
+        });
+    }
+
     private _createCanvas() {
         const width = this._container.clientWidth;
         const height = this._container.clientHeight;
@@ -215,7 +221,8 @@ export class Editor {
             fontColor: fontConfig.fontColor,
             fontFamily: fontConfig.fontFamily,
             fontStyle: "italic",
-            underline: true
+            underline: true,
+            strikout: true
         };
 
         // 此处处理获取选中文本公共样式部分
@@ -244,6 +251,10 @@ export class Editor {
             if (currentFontConfig.underline && !text.underline) {
                 delete currentFontConfig.underline;
             }
+
+            if (currentFontConfig.strikout && !text.strikout) {
+                delete currentFontConfig.strikout;
+            }
         });
 
         this.listener.onSelectChange && this.listener.onSelectChange(currentFontConfig);
@@ -266,7 +277,8 @@ export class Editor {
             fontFamily: text.fontFamily,
             fontStyle: text.fontStyle,
             fontWeight: text.fontWeight,
-            underline: !!text.underline
+            underline: !!text.underline,
+            strikout: !!text.strikout
         };
         this._data.updateConfig(config);
 
@@ -497,7 +509,11 @@ export class Editor {
                 // 排除换行情况
                 if (text.value !== "\n") {
                     if (text.underline) {
-                        this._drawUnderLine(text, x, y, lineData.height);
+                        this._drawUnderLine(text, x, y, lineData.height * config.lineHeight);
+                    }
+
+                    if (text.strikout) {
+                        this._drawStrikout(text, x, y, lineData.height * config.lineHeight);
                     }
 
                     this._fillText(text, x, y, lineData.height);
@@ -509,10 +525,24 @@ export class Editor {
         });
     }
 
+    private _drawStrikout(text: IFontData, x: number, y: number, maxHeight: number) {
+        const config = this._data.getConfg();
+        // const offsetY = (maxHeight * config.lineHeight - text.fontSize) / 2;
+        const underLineY = y + maxHeight / 2;
+        this._ctx.save();
+        this._ctx.beginPath();
+        this._ctx.lineWidth = 1;
+        this._ctx.strokeStyle = text.fontColor;
+        this._ctx.moveTo(x - config.wordSpace / 2, underLineY);
+        this._ctx.lineTo(x + text.width + config.wordSpace / 2, underLineY);
+        this._ctx.stroke();
+        this._ctx.restore();
+    }
+
     private _drawUnderLine(text: IFontData, x: number, y: number, maxHeight: number) {
         const config = this._data.getConfg();
         // const offsetY = (maxHeight * config.lineHeight - text.fontSize) / 2;
-        const underLineY = y + maxHeight + 4;
+        const underLineY = y + maxHeight - 1;
         this._ctx.save();
         this._ctx.beginPath();
         this._ctx.lineWidth = 1;

@@ -16,6 +16,7 @@ export interface IConfig {
     pageMargin: number;
     pageWidth: number;
     underline?: boolean;
+    strikout?: boolean;
 }
 
 export interface IFontData {
@@ -29,6 +30,7 @@ export interface IFontData {
     fontColor: string;
     isChinese: boolean;
     underline?: boolean;
+    strikout?: boolean;
 }
 
 export interface ILineData {
@@ -43,6 +45,7 @@ export interface ICurrentFontConfig {
     fontColor?: string;
     fontStyle?: string;
     underline?: boolean;
+    strikout?: boolean;
 }
 
 export type IOnSelectChange = (config: ICurrentFontConfig) => void;

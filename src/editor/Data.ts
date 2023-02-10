@@ -446,7 +446,8 @@ const initData: IFontData[] = [
         fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
-        isChinese: true
+        isChinese: true,
+        strikout: true
     },
     {
         value: "染",
@@ -457,7 +458,8 @@ const initData: IFontData[] = [
         fontWeight: "normal",
         fontFamily: "serif",
         fontColor: "#444",
-        isChinese: true
+        isChinese: true,
+        strikout: true
     },
     {
         value: "\n",

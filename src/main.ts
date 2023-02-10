@@ -13,17 +13,21 @@ window.onload = () => {
     let isBold = false;
     let isItalic = false;
     let isUnderLine = false;
+    let isStrikout = false;
     const boldBtn = document.querySelector<HTMLDivElement>(".tool-btn-bold");
     const italicBtn = document.querySelector<HTMLDivElement>(".tool-btn-italic");
     const underLineBtn = document.querySelector<HTMLDivElement>(".tool-btn-underline");
+    const strikoutBtn = document.querySelector<HTMLDivElement>(".tool-btn-strikeout");
 
     const fontChange = (config: ICurrentFontConfig) => {
         isBold = config.fontWeight === "bold";
         isItalic = config.fontStyle === "italic";
         isUnderLine = !!config.underline;
+        isStrikout = !!config.strikout;
         setBoldBthStyle();
         setItalicBtnStyle();
         setUnderLineBtnStyle();
+        setStrikoutBtnStyle();
     };
 
     instance.listener.onSelectChange = fontChange;
@@ -50,6 +54,14 @@ window.onload = () => {
             underLineBtn?.classList.add("active");
         } else {
             underLineBtn?.classList.remove("active");
+        }
+    }
+
+    const setStrikoutBtnStyle = () => {
+        if (isStrikout) {
+            strikoutBtn?.classList.add("active");
+        } else {
+            strikoutBtn?.classList.remove("active");
         }
     }
 
@@ -90,6 +102,10 @@ window.onload = () => {
     };
     
     window.setFontStrikeout = () => {
-        console.log("中划线");
+        if (instance.isSelectContent) {
+            isStrikout = !isStrikout;
+            instance.setFontStrikeout(isStrikout);
+            setStrikoutBtnStyle();
+        }
     };
 }
