@@ -451,7 +451,7 @@ export class Editor {
         // 当存在中英文混合时 删除正好某行空一个英文字符的空格，删除后正好有个英文字符将会填充到上一行，光标应该处理该行倒数第二个字符
         if (result) {
             if (direction === 0) {
-                this._cursor.setDataPosition(this._cursor.getDataPosition() - 1);
+                this._cursor.setDataPosition(position - 1);
                 this._cursor.setCursorPositionByData();
                 this._cursor.updateCursor();
             };

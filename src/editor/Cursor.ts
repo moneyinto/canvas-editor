@@ -74,6 +74,8 @@ export class Cursor {
         const lineData = renderContent[textY].texts;
         const { left, textX } = this._getTextXCursorPosition(lineData, x);
 
+        this._renderDataPosition = [textY, textX];
+
         return { left, textX, top, textY };
     }
 
@@ -112,7 +114,6 @@ export class Cursor {
                     top = top + line.height * config.lineHeight
                 }
             }
-
             for (const [lineX, data] of renderContent[this._renderDataPosition[0]].texts.entries()) {
                 if (this._renderDataPosition[1] < lineX) {
                     break;
@@ -156,6 +157,8 @@ export class Cursor {
                 left = left + data.width + config.wordSpace;
             }
         }
+        // 处于最右一位的时候因为回车符减掉1
+        if (textX === lineData.length - 1) textX--;
         return { left, textX };
     }
 
@@ -171,6 +174,7 @@ export class Cursor {
             const renderContent = this._data.getRenderContent();
             let x = 0;
             for (const [line, lineData] of renderContent.entries()) {
+                // 减一是去掉回车符 当行元素只有一个的时候为只有回车符
                 if (this._dataPosition < x + lineData.texts.length - 1) {
                     this._renderDataPosition = [line, this._dataPosition - x];
                     break;
@@ -186,7 +190,7 @@ export class Cursor {
     }
 
     setDataPosition(position: number) {
-        if (position < -1 || position > this._data.getLength() - 1) return;
+        if (position < -1 || position >= this._data.getLength() - 1) return;
         this._dataPosition = position;
 
         this.setRenderDataPosition();
