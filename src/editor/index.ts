@@ -323,9 +323,9 @@ export class Editor {
     }
 
     private _onKeydown(e: KeyboardEvent) {
-        e.preventDefault();
         switch(e.key) {
             case KEY_BOARD.LEFT: {
+                e.preventDefault();
                 const position = this._cursor.getDataPosition();
                 this._cursor.setDataPosition(position - 1);
                 this._cursor.setCursorPositionByData();
@@ -333,6 +333,7 @@ export class Editor {
                 break;
             }
             case KEY_BOARD.RIGHT: {
+                e.preventDefault();
                 const position = this._cursor.getDataPosition();
                 this._cursor.setDataPosition(position + 1);
                 this._cursor.setCursorPositionByData();
@@ -340,6 +341,7 @@ export class Editor {
                 break;
             }
             case KEY_BOARD.TOP: {
+                e.preventDefault();
                 const position = this._cursor.getDataPosition();
                 const renderPosition = this._cursor.getRenderDataPosition();
                 if (renderPosition[0] > 0) {
@@ -372,6 +374,7 @@ export class Editor {
                 break;
             }
             case KEY_BOARD.BOTTOM: {
+                e.preventDefault();
                 const position = this._cursor.getDataPosition();
                 const renderPosition = this._cursor.getRenderDataPosition();
                 const renderContent = this._data.getStashRenderContent();
@@ -403,6 +406,7 @@ export class Editor {
                 break;
             }
             case KEY_BOARD.ENTER: {
+                e.preventDefault();
                 const config = this._data.getConfg();
                 const text: IFontData = {
                     value: "\n",
@@ -426,11 +430,13 @@ export class Editor {
                 break;
             }
             case KEY_BOARD.BACKSPACE: {
+                e.preventDefault();
                 this._deleteText();
                 break;
             }
             case KEY_BOARD.S: {
                 if (e.ctrlKey || e.metaKey) {
+                    e.preventDefault();
                     console.log(JSON.stringify(this._data.getContent()));
                 }
                 break;
