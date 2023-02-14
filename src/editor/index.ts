@@ -123,6 +123,8 @@ export class Editor {
         const width = this._container.clientWidth;
         const height = this._container.clientHeight;
         const canvas = document.createElement("canvas");
+        canvas.tabIndex = 0;
+        canvas.style.outline = "none";
         canvas.style.background = "#fff";
         const dpr = window.devicePixelRatio;
         canvas.width = width * dpr;
@@ -151,6 +153,7 @@ export class Editor {
         this._canvas.addEventListener("mousemove", this._onMouseMove.bind(this));
         this._canvas.addEventListener("mouseup", this._onMouseUp.bind(this));
         this._canvas.addEventListener("mouseout", this._onMouseUp.bind(this));
+        this._canvas.addEventListener("keydown", e => this._onKeydown(e as KeyboardEvent));
 
         this._textarea.addEventListener("change", (input) => {
             console.log("==== change", input);
@@ -212,6 +215,10 @@ export class Editor {
         if (this.isSelectContent) {
             // 选中元素
             this._dealCurrentSelectStyle();
+
+            setTimeout(() => {
+                this._canvas.focus();
+            }, 100);
         } else {
             // 未选中
             this._focus(e.offsetX, e.offsetY);
@@ -464,16 +471,34 @@ export class Editor {
 
     private _deleteText(direction: 0 | 1 = 0) {
         // direction 删除方向  0 向前删除 1 向后删除
-        const position = this._cursor.getDataPosition();
-        const result = this._data.deleteContent(position + direction);
-        // 当存在中英文混合时 删除正好某行空一个英文字符的空格，删除后正好有个英文字符将会填充到上一行，光标应该处理该行倒数第二个字符
-        if (result) {
-            if (direction === 0) {
-                this._cursor.setDataPosition(position - 1);
-                this._cursor.setCursorPositionByData();
-                this._cursor.updateCursor();
-            };
+        console.log(this._selectArea);
+        if (this._selectArea) {
+            // 删除选中文本
+            const index = this._data.deleteSelectContent(this._selectArea);
+            this._selectArea = null;
             this._renderRichText();
+
+            this._cursor.setDataPosition(index - 1);
+            this._cursor.setCursorPositionByData();
+            this._cursor.updateCursor();
+            this._cursor.showCursor();
+            this._updateFontStyleByCursorFont();
+
+            setTimeout(() => {
+                this._textarea.focus();
+            }, 100);
+        } else {
+            const position = this._cursor.getDataPosition();
+            const result = this._data.deleteContent(position + direction);
+            // 当存在中英文混合时 删除正好某行空一个英文字符的空格，删除后正好有个英文字符将会填充到上一行，光标应该处理该行倒数第二个字符
+            if (result) {
+                if (direction === 0) {
+                    this._cursor.setDataPosition(position - 1);
+                    this._cursor.setCursorPositionByData();
+                    this._cursor.updateCursor();
+                };
+                this._renderRichText();
+            }
         }
     }
 
