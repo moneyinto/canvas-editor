@@ -273,6 +273,14 @@ export class Editor {
         this._cursor.updateCursor();
         this._cursor.showCursor();
 
+        this._updateFontStyleByCursorFont();
+
+        setTimeout(() => {
+            this._textarea.focus();
+        }, 100);
+    }
+
+    private _updateFontStyleByCursorFont() {
         // 获取前一个字的样式，设置config
         const currentDataPosition = this._cursor.getDataPosition();
         const content = this._data.getContent();
@@ -290,10 +298,6 @@ export class Editor {
         this._data.updateConfig(config);
 
         this.listener.onCursorChange && this.listener.onCursorChange(config);
-
-        setTimeout(() => {
-            this._textarea.focus();
-        }, 100);
     }
 
     // private _blur(e: Event) {
@@ -330,6 +334,8 @@ export class Editor {
                 this._cursor.setDataPosition(position - 1);
                 this._cursor.setCursorPositionByData();
                 this._cursor.updateCursor();
+
+                this._updateFontStyleByCursorFont();
                 break;
             }
             case KEY_BOARD.RIGHT: {
@@ -338,6 +344,8 @@ export class Editor {
                 this._cursor.setDataPosition(position + 1);
                 this._cursor.setCursorPositionByData();
                 this._cursor.updateCursor();
+
+                this._updateFontStyleByCursorFont();
                 break;
             }
             case KEY_BOARD.TOP: {
@@ -350,7 +358,7 @@ export class Editor {
                     const currentLineData = renderContent[renderPosition[0]].texts;
                     let currentLeft = 0;
                     for (const [index, data] of currentLineData.entries()) {
-                        if (index < renderPosition[1]) {
+                        if (index <= renderPosition[1]) {
                             currentLeft += data.width;
                         }
                     }
@@ -359,7 +367,7 @@ export class Editor {
                     let upLineX = -1;
                     let upLeft = 0;
                     for (const data of upLineData) {
-                        if (upLeft < currentLeft) {
+                        if (upLeft <= currentLeft) {
                             upLineX++;
                             upLeft += data.width
                         } else {
@@ -367,9 +375,14 @@ export class Editor {
                         }
                     }
 
-                    this._cursor.setDataPosition(position - (renderPosition[1] + upLineData.length - 1 - upLineX));
+                    // 处理光标在行首的情况
+                    if (upLineX === -1) upLineX = 0;
+
+                    this._cursor.setDataPosition(position - (renderPosition[1] + 1 + upLineData.length - upLineX));
                     this._cursor.setCursorPositionByData();
                     this._cursor.updateCursor();
+                    
+                    this._updateFontStyleByCursorFont();
                 }
                 break;
             }
@@ -382,7 +395,7 @@ export class Editor {
                     const currentLineData = renderContent[renderPosition[0]].texts;
                     let currentLeft = 0;
                     for (const [index, data] of currentLineData.entries()) {
-                        if (index < renderPosition[1]) {
+                        if (index <= renderPosition[1]) {
                             currentLeft += data.width;
                         }
                     }
@@ -399,9 +412,14 @@ export class Editor {
                         }
                     }
 
-                    this._cursor.setDataPosition(position + (currentLineData.length - renderPosition[1] + downLineX));
+                    // 处理光标在行首的情况
+                    if (downLineX === -1) downLineX = 0;
+
+                    this._cursor.setDataPosition(position + (currentLineData.length - (renderPosition[1] + 1) + downLineX));
                     this._cursor.setCursorPositionByData();
                     this._cursor.updateCursor();
+
+                    this._updateFontStyleByCursorFont();
                 }
                 break;
             }

@@ -61,6 +61,12 @@ export class Cursor {
 
     updateCursor() {
         if (!this._cursor) return;
+        const renderContent = this._data.getRenderContent();
+        renderContent.forEach((line, index) => {
+            if (index === this._renderDataPosition[0] || (index === 0 && this._renderDataPosition[0] === -1)) {
+                this.setCursorHeight(line.height);
+            }
+        });
         this._cursor.style.left = `${this._left}px`;
         this._cursor.style.top = `${this._top}px`;
         this._cursor.style.height = `${this._height}px`;
@@ -132,7 +138,6 @@ export class Cursor {
         let textY = 0;
         const len = renderContent.length;
         for(const [index, line] of renderContent.entries()) {
-            this.setCursorHeight(line.height);
             if (y < top + line.height * config.lineHeight) {
                 break;
             } else {
