@@ -513,6 +513,8 @@ export class Editor {
             fontStyle: config.fontStyle,
             width: config.fontSize,
             height: config.fontSize,
+            underline: !!config.underline,
+            strikout: !!config.strikout,
             isChinese: isChinese(value)
         };
         
