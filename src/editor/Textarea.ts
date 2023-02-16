@@ -10,7 +10,7 @@ export class Textarea {
         const textarea = document.createElement("textarea");
         textarea.style.position = "absolute";
         textarea.style.zIndex = "-100";
-        textarea.style.right = "100px";
+        // textarea.style.right = "100px";
         // textarea.style.left = "-10000px";
         textarea.style.background = "transparent";
         textarea.style.border = "none";
@@ -19,6 +19,11 @@ export class Textarea {
         textarea.style.color = "transparent";
         this._container.append(textarea);
         return textarea;
+    }
+
+    setTextareaPosition(x: number, y: number) {
+        this._textarea.style.left = x + "px";
+        this._textarea.style.top = y+ "px";
     }
 
     getTextareaElement() {

@@ -38,7 +38,7 @@ export class Editor {
         const textarea = new Textarea(this._container);
         this._textarea = textarea.getTextareaElement();
 
-        this._cursor = new Cursor(this._container, this._data);
+        this._cursor = new Cursor(this._container, this._data, textarea);
 
         this._bindEvents();
 

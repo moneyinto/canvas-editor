@@ -1,4 +1,5 @@
 import { Data } from "./Data";
+import { Textarea } from "./Textarea";
 import { IFontData, ILineData } from "./type";
 
 const COMPENSTATE_LEN = 4;
@@ -6,6 +7,7 @@ const COMPENSTATE_LEN = 4;
 export class Cursor {
     private _container: HTMLDivElement;
     private _cursor: HTMLDivElement | null;
+    private _textarea: Textarea;
 
     private _data: Data;
 
@@ -19,11 +21,12 @@ export class Cursor {
 
     // 原数据索引位置 -1 为最前面 之后值为数据索引值 及光标在该索引数据后面
     private _dataPosition: number;
-    constructor(container: HTMLDivElement, data: Data) {
+    constructor(container: HTMLDivElement, data: Data, textarea: Textarea) {
         this._container = container;
         this._cursor = null;
 
         this._data = data;
+        this._textarea = textarea;
 
         const config = this._data.getConfg();
 
@@ -70,6 +73,9 @@ export class Cursor {
         this._cursor.style.left = `${this._left}px`;
         this._cursor.style.top = `${this._top}px`;
         this._cursor.style.height = `${this._height}px`;
+
+        // 更新textarea到光标位置
+        this._textarea.setTextareaPosition(this._left, this._top + this._height / 2);
     }
 
     getCursorPosition(x: number, y: number, renderContent: ILineData[]) {
