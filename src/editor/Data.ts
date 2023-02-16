@@ -516,11 +516,14 @@ export class Data {
     private _content: IFontData[];
     private _renderContent: ILineData[];
     private _config: IConfig;
+    private _copyContent: IFontData[];
     constructor() {
         this._content = initData;
         this._config = deepClone(baseConfig);
 
         this._renderContent = [];
+
+        this._copyContent = [];
     }
 
     resetConfig() {
@@ -660,7 +663,7 @@ export class Data {
         return true;
     }
 
-    deleteSelectContent(selectArea: [number, number, number, number]) {
+    getSelectArea(selectArea: [number, number, number, number]) {
         const renderContent = this.getRenderContent();
         let startX = 0;
         let endX = 0;
@@ -684,8 +687,37 @@ export class Data {
             }
         });
 
-        console.log(startX, endX);
+        return {
+            startX,
+            endX
+        };
+    }
+
+    deleteSelectContent(selectArea: [number, number, number, number]) {
+        const { startX, endX } = this.getSelectArea(selectArea);
         this._content.splice(startX, endX - startX);
         return startX;
+    }
+
+    copySelectContent(selectArea: [number, number, number, number]) {
+        const { startX, endX } = this.getSelectArea(selectArea);
+        this._copyContent = this._content.slice(startX, endX);
+        return this._copyContent;
+    }
+
+    pasteContent(selectArea: [number, number, number, number] | null, position: number) {
+        if (this._copyContent.length ===  0) return false;
+        let cursorPosition = 0;
+        if (selectArea) {
+            // 选中区域存在替换选中区域
+            const index = this.deleteSelectContent(selectArea);
+            this._content.splice(index, 0, ...this._copyContent);
+            cursorPosition = index + this._copyContent.length;
+        } else {
+            // 光标位置粘贴
+            this._content.splice(position + 1, 0, ...this._copyContent);
+            cursorPosition = position + 1 + this._copyContent.length;
+        }
+        return cursorPosition;
     }
 }

@@ -466,12 +466,72 @@ export class Editor {
                 }
                 break;
             }
+            case KEY_BOARD.C: {
+                if (e.ctrlKey || e.metaKey) {
+                    this._copyText();
+                }
+                break;
+            }
+            case KEY_BOARD.X: {
+                if (e.ctrlKey || e.metaKey) {
+                    this._cutText();
+                }
+                break;
+            }
+            case KEY_BOARD.V: {
+                if (e.ctrlKey || e.metaKey) {
+                    this._pasteText();
+                }
+                break;
+            }
         }
+    }
+
+    private _copyText() {
+        if (this._selectArea) {
+            // 复制选中文本
+            this._data.copySelectContent(this._selectArea);
+        }
+
+        setTimeout(() => {
+            this._textarea.focus();
+        }, 100);
+    }
+
+    private _cutText() {
+        if (this._selectArea) {
+            // 复制选中文本
+            this._data.copySelectContent(this._selectArea);
+
+            this._deleteText();
+        }
+
+        setTimeout(() => {
+            this._textarea.focus();
+        }, 100);
+    }
+
+    private _pasteText() {
+        const position = this._cursor.getDataPosition();
+        const index = this._data.pasteContent(this._selectArea, position);
+        if (typeof index === "number") {
+            this._selectArea = null;
+            this._renderRichText();
+
+            this._cursor.setDataPosition(index - 1);
+            this._cursor.setCursorPositionByData();
+            this._cursor.updateCursor();
+            this._cursor.showCursor();
+            this._updateFontStyleByCursorFont();
+        }
+
+        setTimeout(() => {
+            this._textarea.focus();
+        }, 100);
     }
 
     private _deleteText(direction: 0 | 1 = 0) {
         // direction 删除方向  0 向前删除 1 向后删除
-        console.log(this._selectArea);
         if (this._selectArea) {
             // 删除选中文本
             const index = this._data.deleteSelectContent(this._selectArea);

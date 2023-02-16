@@ -5,5 +5,8 @@ export enum KEY_BOARD {
     TOP = "ArrowUp",
     RIGHT = "ArrowRight",
     BOTTOM = "ArrowDown",
-    S = "s"
+    S = "s",
+    C = "c",
+    X = "x",
+    V = "v"
 }
