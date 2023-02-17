@@ -509,7 +509,8 @@ const baseConfig = {
     lineHeight: 2,
     lineHeightLeave: 4,
     pageMargin: 10,
-    pageWidth: 200
+    pageWidth: 200,
+    align: "left"
 };
 
 export class Data {
@@ -546,6 +547,7 @@ export class Data {
         const renderContent: ILineData[] = [];
         let lineData: ILineData = {
             height: 0,
+            width: 0,
             texts: []
         };
         let countWidth = 0;
@@ -556,19 +558,21 @@ export class Data {
                 renderContent.push(lineData);
                 lineData = {
                     height: 0,
+                    width: 0,
                     texts: []
                 };
                 countWidth = 0;
             } else if (countWidth + text.width < width) {
                 // 一行数据可以摆得下
                 lineData.texts.push(text);
-                if (lineData.height < text.fontSize)
-                    lineData.height = text.fontSize;
+                if (lineData.height < text.fontSize) lineData.height = text.fontSize;
                 countWidth = countWidth + text.width + this._config.wordSpace;
+                lineData.width = countWidth;
             } else {
                 renderContent.push(lineData);
                 lineData = {
                     height: 0,
+                    width: 0,
                     texts: [text]
                 };
                 countWidth = text.width + this._config.wordSpace;
@@ -627,14 +631,25 @@ export class Data {
                 .reduce((acr, cur) => {
                     return acr + cur + this._config.wordSpace;
                 });
+
+            const offsetX = this.getAlignOffsetX(lineData);
             return {
-                x,
+                x: x + offsetX,
                 y,
                 width: width + this._config.wordSpace,
                 height: lineData.height * this._config.lineHeight
             };
         }
         return undefined;
+    }
+
+    getAlignOffsetX(line: ILineData) {
+        const align = this._config.align || "left";
+        return {
+            left: 0,
+            center: (this._config.pageWidth - this._config.pageMargin * 2 - line.width) / 2,
+            right: this._config.pageWidth - this._config.pageMargin * 2 - line.width
+        }[align];
     }
 
     getStashRenderContent() {

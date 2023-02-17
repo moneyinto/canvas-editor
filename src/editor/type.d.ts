@@ -17,6 +17,7 @@ export interface IConfig {
     pageWidth: number;
     underline?: boolean;
     strikout?: boolean;
+    align?: "left" | "center" | "right";
 }
 
 export interface IFontData {
@@ -35,6 +36,7 @@ export interface IFontData {
 
 export interface ILineData {
     height: number;
+    width: number;
     texts: IFontData[];
 }
 

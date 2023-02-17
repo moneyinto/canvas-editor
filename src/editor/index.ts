@@ -119,6 +119,15 @@ export class Editor {
         });
     }
 
+    public setAlign(align: "left" | "center" | "right") {
+        this._data.updateConfig({
+            align
+        });
+        this._cursor.setCursorPositionByData();
+        this._cursor.updateCursor();
+        this._renderRichText();
+    }
+
     private _createCanvas() {
         const width = this._container.clientWidth;
         const height = this._container.clientHeight;
@@ -219,7 +228,7 @@ export class Editor {
             setTimeout(() => {
                 this._canvas.focus();
             }, 100);
-        } else {
+        } else if (this._click) {
             // 未选中
             this._focus(e.offsetX, e.offsetY);
             this._selectArea = null;
@@ -362,18 +371,18 @@ export class Editor {
                 if (renderPosition[0] > 0) {
                     const renderContent = this._data.getStashRenderContent();
 
-                    const currentLineData = renderContent[renderPosition[0]].texts;
-                    let currentLeft = 0;
-                    for (const [index, data] of currentLineData.entries()) {
+                    const currentLineData = renderContent[renderPosition[0]];
+                    let currentLeft = this._data.getAlignOffsetX(currentLineData);
+                    for (const [index, data] of currentLineData.texts.entries()) {
                         if (index <= renderPosition[1]) {
                             currentLeft += data.width;
                         }
                     }
 
-                    const upLineData = renderContent[renderPosition[0] - 1].texts;
+                    const upLineData = renderContent[renderPosition[0] - 1];
                     let upLineX = -1;
-                    let upLeft = 0;
-                    for (const data of upLineData) {
+                    let upLeft = this._data.getAlignOffsetX(upLineData);
+                    for (const data of upLineData.texts) {
                         if (upLeft <= currentLeft) {
                             upLineX++;
                             upLeft += data.width
@@ -385,7 +394,7 @@ export class Editor {
                     // 处理光标在行首的情况
                     if (upLineX === -1) upLineX = 0;
 
-                    this._cursor.setDataPosition(position - (renderPosition[1] + 1 + upLineData.length - upLineX));
+                    this._cursor.setDataPosition(position - (renderPosition[1] + 1 + upLineData.texts.length - upLineX));
                     this._cursor.setCursorPositionByData();
                     this._cursor.updateCursor();
                     
@@ -399,18 +408,18 @@ export class Editor {
                 const renderPosition = this._cursor.getRenderDataPosition();
                 const renderContent = this._data.getStashRenderContent();
                 if (renderPosition[0] < renderContent.length - 1) {
-                    const currentLineData = renderContent[renderPosition[0]].texts;
-                    let currentLeft = 0;
-                    for (const [index, data] of currentLineData.entries()) {
+                    const currentLineData = renderContent[renderPosition[0]];
+                    let currentLeft = this._data.getAlignOffsetX(currentLineData);
+                    for (const [index, data] of currentLineData.texts.entries()) {
                         if (index <= renderPosition[1]) {
                             currentLeft += data.width;
                         }
                     }
 
-                    const downLineData = renderContent[renderPosition[0] + 1].texts;
+                    const downLineData = renderContent[renderPosition[0] + 1];
                     let downLineX = -1;
-                    let downLeft = 0;
-                    for (const data of downLineData) {
+                    let downLeft = this._data.getAlignOffsetX(downLineData);
+                    for (const data of downLineData.texts) {
                         if (downLeft <= currentLeft) {
                             downLineX++;
                             downLeft += data.width
@@ -422,7 +431,7 @@ export class Editor {
                     // 处理光标在行首的情况
                     if (downLineX === -1) downLineX = 0;
 
-                    this._cursor.setDataPosition(position + (currentLineData.length - (renderPosition[1] + 1) + downLineX));
+                    this._cursor.setDataPosition(position + (currentLineData.texts.length - (renderPosition[1] + 1) + downLineX));
                     this._cursor.setCursorPositionByData();
                     this._cursor.updateCursor();
 
@@ -631,18 +640,19 @@ export class Editor {
             }
 
             const lineHeight = lineData.height * config.lineHeight;
+            const offsetX = this._data.getAlignOffsetX(lineData);
             lineData.texts.forEach(text => {
                 // 排除换行情况
                 if (text.value !== "\n") {
                     if (text.underline) {
-                        this._drawUnderLine(text, x, y, lineData.height);
+                        this._drawUnderLine(text, x + offsetX, y, lineData.height);
                     }
 
                     if (text.strikout) {
-                        this._drawStrikout(text, x, y, lineData.height);
+                        this._drawStrikout(text, x + offsetX, y, lineData.height);
                     }
 
-                    this._fillText(text, x, y, lineData.height);
+                    this._fillText(text, x + offsetX, y, lineData.height);
                     x = x + text.width + config.wordSpace;
                 }
             });

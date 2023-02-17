@@ -65,6 +65,7 @@ export class Cursor {
     updateCursor() {
         if (!this._cursor) return;
         const renderContent = this._data.getRenderContent();
+
         renderContent.forEach((line, index) => {
             if (index === this._renderDataPosition[0] || (index === 0 && this._renderDataPosition[0] === -1)) {
                 this.setCursorHeight(line.height);
@@ -83,12 +84,14 @@ export class Cursor {
         const { top, textY } = this._getTextYCursorPosition(renderContent, y);
 
         // 计算在某行的位置
-        const lineData = renderContent[textY].texts;
-        const { left, textX } = this._getTextXCursorPosition(lineData, x);
+        const line = renderContent[textY];
+        const lineData = line.texts;
+        const offsetX = this._data.getAlignOffsetX(line);
+        const { left, textX } = this._getTextXCursorPosition(lineData, x - offsetX);
 
         this._renderDataPosition = [textY, textX];
 
-        return { left, textX, top, textY };
+        return { left: left + offsetX, textX, top, textY };
     }
 
     setCursorPosition(x: number, y: number) {
@@ -126,13 +129,22 @@ export class Cursor {
                     top = top + line.height * config.lineHeight
                 }
             }
-            for (const [lineX, data] of renderContent[this._renderDataPosition[0]].texts.entries()) {
-                if (this._renderDataPosition[1] < lineX) {
-                    break;
-                } else {
-                    left = left + data.width + config.wordSpace;
+            const line = renderContent[this._renderDataPosition[0]];
+            let offsetX = 0;
+
+            if (line) {
+                for (const [lineX, data] of line.texts.entries()) {
+                    if (this._renderDataPosition[1] < lineX) {
+                        break;
+                    } else {
+                        left = left + data.width + config.wordSpace;
+                    }
                 }
+
+                offsetX = this._data.getAlignOffsetX(line);
             }
+            
+            left = left + offsetX;
         }
 
         return { top, left };

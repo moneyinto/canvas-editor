@@ -8,4 +8,5 @@ declare interface Window {
     setFontItalic: () => void;
     setFontUnderLine: () => void;
     setFontStrikeout: () => void;
+    setAlign: (align: "left" | "center" | "right") => void;
 }

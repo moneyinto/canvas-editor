@@ -14,10 +14,17 @@ window.onload = () => {
     let isItalic = false;
     let isUnderLine = false;
     let isStrikout = false;
+    let align = "left";
     const boldBtn = document.querySelector<HTMLDivElement>(".tool-btn-bold");
-    const italicBtn = document.querySelector<HTMLDivElement>(".tool-btn-italic");
-    const underLineBtn = document.querySelector<HTMLDivElement>(".tool-btn-underline");
-    const strikoutBtn = document.querySelector<HTMLDivElement>(".tool-btn-strikeout");
+    const italicBtn =
+        document.querySelector<HTMLDivElement>(".tool-btn-italic");
+    const underLineBtn = document.querySelector<HTMLDivElement>(
+        ".tool-btn-underline"
+    );
+    const strikoutBtn = document.querySelector<HTMLDivElement>(
+        ".tool-btn-strikeout"
+    );
+    const alignBtns = document.getElementsByClassName("tool-btn-align");
 
     const fontChange = (config: ICurrentFontConfig) => {
         isBold = config.fontWeight === "bold";
@@ -39,7 +46,7 @@ window.onload = () => {
         } else {
             boldBtn?.classList.remove("active");
         }
-    }
+    };
 
     const setItalicBtnStyle = () => {
         if (isItalic) {
@@ -47,7 +54,7 @@ window.onload = () => {
         } else {
             italicBtn?.classList.remove("active");
         }
-    }
+    };
 
     const setUnderLineBtnStyle = () => {
         if (isUnderLine) {
@@ -55,7 +62,7 @@ window.onload = () => {
         } else {
             underLineBtn?.classList.remove("active");
         }
-    }
+    };
 
     const setStrikoutBtnStyle = () => {
         if (isStrikout) {
@@ -63,20 +70,31 @@ window.onload = () => {
         } else {
             strikoutBtn?.classList.remove("active");
         }
-    }
+    };
+
+    const setAlignBtnStyle = (align: string) => {
+        for (let i = 0; i < alignBtns.length; i++) {
+            const btn = alignBtns[i];
+            if (align === btn.getAttribute("data-align")) {
+                btn.classList.add("active");
+            } else {
+                btn.classList.remove("active");
+            }
+        }
+    };
 
     window.setFontColor = (e) => {
         instance.setFontColor((e.target as HTMLInputElement).value);
     };
-    
+
     window.setAddFontSize = () => {
         instance.setFontSize("large");
     };
-    
+
     window.setReduceFontSize = () => {
         instance.setFontSize("small");
     };
-    
+
     window.setFontBold = () => {
         if (instance.isSelectContent) {
             isBold = !isBold;
@@ -84,7 +102,7 @@ window.onload = () => {
             setBoldBthStyle();
         }
     };
-    
+
     window.setFontItalic = () => {
         if (instance.isSelectContent) {
             isItalic = !isItalic;
@@ -92,7 +110,7 @@ window.onload = () => {
             setItalicBtnStyle();
         }
     };
-    
+
     window.setFontUnderLine = () => {
         if (instance.isSelectContent) {
             isUnderLine = !isUnderLine;
@@ -100,7 +118,7 @@ window.onload = () => {
             setUnderLineBtnStyle();
         }
     };
-    
+
     window.setFontStrikeout = () => {
         if (instance.isSelectContent) {
             isStrikout = !isStrikout;
@@ -108,4 +126,9 @@ window.onload = () => {
             setStrikoutBtnStyle();
         }
     };
-}
+
+    window.setAlign = (align) => {
+        setAlignBtnStyle(align);
+        instance.setAlign(align);
+    };
+};

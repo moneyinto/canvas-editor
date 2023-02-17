@@ -30,6 +30,15 @@
             <img src="/src/assets/icons/font-color.svg" alt="">
             <input type="color" oninput="setFontColor(event)" />
         </div>
+        <div class="tool-btn tool-btn-align active" data-align="left" onclick="setAlign('left')">
+            <img src="/src/assets/icons/align-left.svg" alt="">
+        </div>
+        <div class="tool-btn tool-btn-align" data-align="center" onclick="setAlign('center')">
+            <img src="/src/assets/icons/align-center.svg" alt="">
+        </div>
+        <div class="tool-btn tool-btn-align" data-align="right" onclick="setAlign('right')">
+            <img src="/src/assets/icons/align-right.svg" alt="">
+        </div>
     </div>
     <div class="canvas-editor" id="editor"></div>
     <script type="module" src="/src/main.ts"></script>
