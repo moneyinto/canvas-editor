@@ -69,3 +69,19 @@ body {
     opacity: 0;
     cursor: pointer;
 }
+
+.tool-btn-select {
+    width: 120px;
+    display: flex;
+}
+
+.tool-btn-select select {
+    flex: 1;
+    background-color: transparent;
+    outline: none;
+    border: 1px solid #aaa;
+    height: 26px;
+    border-radius: 3px;
+    text-align: center;
+    color: #555;
+}

@@ -70,6 +70,19 @@ export class Editor {
         }
     }
 
+    public hideCursor() {
+        this._cursor.hideCursor();
+    }
+
+    public setFontFamily(fontFamily: string) {
+        this._forSelectTexts((text) => {
+            text.fontFamily = fontFamily;
+            const { width, height } = this._getFontSize(text);
+            text.width = width;
+            text.height = height;
+        });
+    }
+
     public setFontColor(color: string) {
         this._forSelectTexts((text) => {
             text.fontColor = color;
@@ -572,7 +585,7 @@ export class Editor {
     }
 
     private _inputText(value: string) {
-        const config = this._data.getConfg();
+        const config = this.config;
         const text: IFontData = {
             value,
             fontSize: config.fontSize,
@@ -586,7 +599,7 @@ export class Editor {
             strikout: !!config.strikout,
             isChinese: isChinese(value)
         };
-        
+
         const { width, height } = this._getFontSize(text);
         text.width = width;
         text.height = height;

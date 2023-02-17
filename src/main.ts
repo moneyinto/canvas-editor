@@ -2,6 +2,7 @@ import "@/style/index.css";
 import { Editor } from "./editor";
 import { Data } from "./editor/Data";
 import { ICurrentFontConfig } from "./editor/type";
+import { isSupportFont, SYS_FONTS } from "./editor/util";
 
 window.onload = () => {
     const container = document.querySelector<HTMLDivElement>("#editor")!;
@@ -10,21 +11,37 @@ window.onload = () => {
 
     console.log("实例", instance);
 
+    document.addEventListener("mousedown", (e: MouseEvent) => {
+        const path = e.composedPath();
+        if (!path.includes(container)) {
+            instance.hideCursor();
+        }
+    });
+
     let isBold = false;
     let isItalic = false;
     let isUnderLine = false;
     let isStrikout = false;
-    let align = "left";
     const boldBtn = document.querySelector<HTMLDivElement>(".tool-btn-bold");
-    const italicBtn =
-        document.querySelector<HTMLDivElement>(".tool-btn-italic");
-    const underLineBtn = document.querySelector<HTMLDivElement>(
-        ".tool-btn-underline"
-    );
-    const strikoutBtn = document.querySelector<HTMLDivElement>(
-        ".tool-btn-strikeout"
-    );
+    const italicBtn = document.querySelector<HTMLDivElement>(".tool-btn-italic");
+    const underLineBtn = document.querySelector<HTMLDivElement>(".tool-btn-underline");
+    const strikoutBtn = document.querySelector<HTMLDivElement>(".tool-btn-strikeout");
     const alignBtns = document.getElementsByClassName("tool-btn-align");
+    const fontFamilySelect = document.querySelector<HTMLSelectElement>("#fontFamilySelect");
+
+    const availableFonts = SYS_FONTS.filter(font => isSupportFont(font.value));
+    let fontFamilyHtml = "";
+    availableFonts.forEach(font => {
+        fontFamilyHtml += `<option value="${font.value}">${font.label}</option>`
+    });
+    if (fontFamilySelect) {
+        fontFamilySelect.innerHTML = fontFamilyHtml;
+        fontFamilySelect.value = availableFonts[0].value;
+        fontFamilySelect.addEventListener("change", (e) => {
+            instance.setFontFamily((e.target as HTMLSelectElement).value);
+        });
+        instance.setFontFamily(availableFonts[0].value);
+    }
 
     const fontChange = (config: ICurrentFontConfig) => {
         isBold = config.fontWeight === "bold";
@@ -35,6 +52,7 @@ window.onload = () => {
         setItalicBtnStyle();
         setUnderLineBtnStyle();
         setStrikoutBtnStyle();
+        if (fontFamilySelect) fontFamilySelect.value = config.fontFamily || "";
     };
 
     instance.listener.onSelectChange = fontChange;

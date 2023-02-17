@@ -3,6 +3,7 @@
 ##### 研究canvas 文本编辑 为了实现[canvas-ppt](https://github.com/moneyinto/canvas-ppt)插入文本
 
 ### 功能
+- [x] 字体设置
 - [x] 字体大小设置
 - [x] 字体颜色设置
 - [x] 字体粗体设置
