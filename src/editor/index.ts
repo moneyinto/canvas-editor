@@ -80,6 +80,7 @@ export class Editor {
     }
 
     public setFontFamily(fontFamily: string) {
+        this._data.updateConfig({ fontFamily });
         this._forSelectTexts((text) => {
             text.fontFamily = fontFamily;
             const { width, height } = this._getFontSize(text);
@@ -182,13 +183,13 @@ export class Editor {
         this._canvas.addEventListener("mouseout", this._onMouseUp.bind(this));
         this._canvas.addEventListener("keydown", e => this._onKeydown(e as KeyboardEvent));
 
-        this._textarea.addEventListener("change", (input) => {
-            console.log("==== change", input);
-        });
+        // this._textarea.addEventListener("change", (input) => {
+        //     console.log("==== change", input);
+        // });
 
-        this._textarea.addEventListener("focus", (input) => {
-            console.log("==== focus", input);
-        });
+        // this._textarea.addEventListener("focus", (input) => {
+        //     console.log("==== focus", input);
+        // });
 
         this._textarea.addEventListener("input", e => this._onInput(e as InputEvent));
         // this._textarea.addEventListener("compositionstart", e => this._onCompStart(e as CompositionEvent));
