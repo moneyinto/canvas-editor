@@ -60,7 +60,12 @@ export class Editor {
             renderContent.forEach((lineData, line) => {
                 if (line >= startY && line <= endY) {
                     lineData.texts.forEach((text, index) => {
-                        if (startX <= index && index < endX) {
+                        if (
+                            (startY === endY && startX <= index && index < endX) ||
+                            (startY !== endY && line === startY && startX <= index) ||
+                            (startY !== endY && line !== startY && line !== endY) ||
+                            (startY !== endY && line === endY && index <= endX)
+                        ) {
                             callback && callback(text);
                         }
                     });
