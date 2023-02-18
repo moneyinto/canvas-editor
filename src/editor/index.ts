@@ -180,7 +180,7 @@ export class Editor {
         this._canvas.addEventListener("mousedown", this._onMouseDown.bind(this));
         this._canvas.addEventListener("mousemove", this._onMouseMove.bind(this));
         this._canvas.addEventListener("mouseup", this._onMouseUp.bind(this));
-        this._canvas.addEventListener("mouseout", this._onMouseUp.bind(this));
+        this._canvas.addEventListener("mouseout", this._onMouseOut.bind(this));
         this._canvas.addEventListener("keydown", e => this._onKeydown(e as KeyboardEvent));
 
         // this._textarea.addEventListener("change", (input) => {
@@ -252,6 +252,11 @@ export class Editor {
             this._focus(e.offsetX, e.offsetY);
             this._selectArea = null;
         }
+        this._click = null;
+    }
+
+    private _onMouseOut(e: MouseEvent) {
+        e.preventDefault();
         this._click = null;
     }
 
