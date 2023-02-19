@@ -1,13 +1,11 @@
 import "@/style/index.css";
 import { Editor } from "./editor";
-import { Data } from "./editor/Data";
 import { ICurrentFontConfig } from "./editor/type";
 import { isSupportFont, SYS_FONTS } from "./editor/util";
 
 window.onload = () => {
     const container = document.querySelector<HTMLDivElement>("#editor")!;
-    const data = new Data();
-    const instance = new Editor(container, data);
+    const instance = new Editor(container);
 
     console.log("实例", instance);
 

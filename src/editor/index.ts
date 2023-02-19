@@ -20,7 +20,7 @@ export class Editor {
     private _selectArea: [number, number, number, number] | null;
 
     private _click: IMouseClick | null;
-    constructor(container: HTMLDivElement, data: Data) {
+    constructor(container: HTMLDivElement) {
         this.listener = new Listener();
         this._container = container;
 
@@ -32,7 +32,7 @@ export class Editor {
         this._canvas = canvas;
         this._ctx = ctx;
 
-        this._data = data;
+        this._data = new Data(this._ctx);
         this._data.setPageWidth(this._canvas.width);
 
         const textarea = new Textarea(this._container);
@@ -83,7 +83,7 @@ export class Editor {
         this._data.updateConfig({ fontFamily });
         this._forSelectTexts((text) => {
             text.fontFamily = fontFamily;
-            const { width, height } = this._getFontSize(text);
+            const { width, height } = this._data.getFontSize(text);
             text.width = width;
             text.height = height;
         });
@@ -102,7 +102,7 @@ export class Editor {
             } else {
                 text.fontSize -= 2;
             }
-            const { width, height } = this._getFontSize(text);
+            const { width, height } = this._data.getFontSize(text);
             text.width = width;
             text.height = height;
         });
@@ -111,7 +111,7 @@ export class Editor {
     public setFontBold(bold: boolean) {
         this._forSelectTexts((text) => {
             text.fontWeight = bold ? "bold" : "normal";
-            const { width, height } = this._getFontSize(text);
+            const { width, height } = this._data.getFontSize(text);
             text.width = width;
             text.height = height;
         });
@@ -120,7 +120,7 @@ export class Editor {
     public setFontItalic(isItalic: boolean) {
         this._forSelectTexts((text) => {
             text.fontStyle = isItalic ? "italic" : "normal";
-            const { width, height } = this._getFontSize(text);
+            const { width, height } = this._data.getFontSize(text);
             text.width = width;
             text.height = height;
         });
@@ -544,9 +544,9 @@ export class Editor {
         }, 100);
     }
 
-    private _pasteText() {
+    private async _pasteText() {
         const position = this._cursor.getDataPosition();
-        const index = this._data.pasteContent(this._selectArea, position);
+        const index = await this._data.pasteContent(this._selectArea, position);
         if (typeof index === "number") {
             this._selectArea = null;
             this._renderRichText();
@@ -611,7 +611,7 @@ export class Editor {
             isChinese: isChinese(value)
         };
 
-        const { width, height } = this._getFontSize(text);
+        const { width, height } = this._data.getFontSize(text);
         text.width = width;
         text.height = height;
 
@@ -628,14 +628,6 @@ export class Editor {
 
         // 清除textarea中的值
         this._textarea.value = "";
-    }
-
-    private _getFontSize(text: IFontData) {
-        this._ctx.font = `${text.fontStyle} ${text.fontWeight} ${text.fontSize}px ${text.fontFamily}`;
-        const metrics = this._ctx.measureText(text.value);
-        const width = metrics.width;
-        const height = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
-        return { width, height };
     }
 
     private _clear() {

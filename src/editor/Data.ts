@@ -1,5 +1,5 @@
 import { IConfig, IFontData, ILineData } from "./type";
-import { deepClone } from "./util";
+import { deepClone, isChinese, readClipboard } from "./util";
 
 const initData: IFontData[] = [
     {
@@ -518,7 +518,9 @@ export class Data {
     private _renderContent: ILineData[];
     private _config: IConfig;
     private _copyContent: IFontData[];
-    constructor() {
+    private _ctx: CanvasRenderingContext2D;
+    constructor(ctx: CanvasRenderingContext2D) {
+        this._ctx = ctx;
         this._content = initData;
         this._config = deepClone(baseConfig);
 
@@ -708,6 +710,14 @@ export class Data {
         };
     }
 
+    getFontSize(text: IFontData) {
+        this._ctx.font = `${text.fontStyle} ${text.fontWeight} ${text.fontSize}px ${text.fontFamily}`;
+        const metrics = this._ctx.measureText(text.value);
+        const width = metrics.width;
+        const height = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
+        return { width, height };
+    }
+
     deleteSelectContent(selectArea: [number, number, number, number]) {
         const { startX, endX } = this.getSelectArea(selectArea);
         this._content.splice(startX, endX - startX);
@@ -720,8 +730,38 @@ export class Data {
         return this._copyContent;
     }
 
-    pasteContent(selectArea: [number, number, number, number] | null, position: number) {
-        if (this._copyContent.length ===  0) return false;
+    async pasteContent(selectArea: [number, number, number, number] | null, position: number) {
+        if (this._copyContent.length ===  0) {
+            const content = await readClipboard();
+            if (content) {
+                // 剪切板内容转换存入copyContent
+                // 这里考虑是否带格式，先处理不带格式的
+                const config = this.getConfg();
+                const baseText: IFontData = {
+                    value: "",
+                    fontSize: config.fontSize,
+                    fontFamily: config.fontFamily,
+                    fontWeight: config.fontWeight,
+                    fontColor: config.fontColor,
+                    fontStyle: config.fontStyle,
+                    width: config.fontSize,
+                    height: config.fontSize,
+                    underline: !!config.underline,
+                    strikout: !!config.strikout,
+                    isChinese: false
+                };;
+                content.split("").forEach(text => {
+                    baseText.value = text;
+                    const { width, height } = this.getFontSize(baseText);
+                    baseText.width = width;
+                    baseText.height = height;
+                    baseText.isChinese = isChinese(text);
+                    this._copyContent.push(deepClone(baseText));
+                });
+            } else {
+                return false;
+            }
+        }
         let cursorPosition = 0;
         if (selectArea) {
             // 选中区域存在替换选中区域
@@ -733,6 +773,8 @@ export class Data {
             this._content.splice(position + 1, 0, ...this._copyContent);
             cursorPosition = position + 1 + this._copyContent.length;
         }
+
+        this._copyContent = [];
         return cursorPosition;
     }
 }
