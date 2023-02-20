@@ -507,7 +507,6 @@ const baseConfig = {
     fontStyle: "normal",
     wordSpace: 1,
     lineHeight: 2,
-    lineHeightLeave: 4,
     pageMargin: 10,
     pageWidth: 200,
     align: "left"
