@@ -1,5 +1,24 @@
 ### Canvas 文本编辑
 
+<p align="center">
+    <img src="./public/word.png" />
+</p>
+
+<p align="center">
+    <a href="https://github.com/moneyinto/canvas-editor/stargazers" target="_black">
+        <img src="https://img.shields.io/github/stars/moneyinto/canvas-editor?logo=github" alt="stars" />
+    </a>
+    <a href="https://www.github.com/moneyinto/canvas-editor/network/members" target="_black">
+        <img src="https://img.shields.io/github/forks/moneyinto/canvas-editor?logo=github" alt="forks" />
+    </a>
+    <a href="https://www.typescriptlang.org" target="_black">
+        <img src="https://img.shields.io/badge/language-TypeScript-blue.svg" alt="language">
+    </a>
+    <a href="https://github.com/moneyinto/canvas-editor/issues" target="_black">
+        <img src="https://img.shields.io/github/issues-closed/moneyinto/canvas-editor.svg" alt="issue">
+    </a>
+</p>
+
 ##### 研究canvas 文本编辑 为了实现[canvas-ppt](https://github.com/moneyinto/canvas-ppt)插入文本
 
 ### 功能
