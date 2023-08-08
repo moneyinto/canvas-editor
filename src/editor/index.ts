@@ -33,7 +33,7 @@ export class Editor {
         this._ctx = ctx;
 
         this._data = new Data(this._ctx);
-        this._data.setPageWidth(this._canvas.width);
+        this._data.setPageWidth(this._container.clientWidth);
 
         const textarea = new Textarea(this._container);
         this._textarea = textarea.getTextareaElement();
@@ -155,6 +155,8 @@ export class Editor {
         canvas.style.outline = "none";
         canvas.style.background = "#fff";
         const dpr = window.devicePixelRatio;
+        canvas.style.width = width + "px";
+        canvas.style.height = height + "px";
         canvas.width = width * dpr;
         canvas.height = height * dpr;
         const ctx = canvas.getContext("2d")!;
